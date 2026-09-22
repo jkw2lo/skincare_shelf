@@ -1274,8 +1274,13 @@ function sourcesHTML(){
 }
 async function lookupAny(code){
   lastTrace=null;
+  const forms=[code];
+  if(code.length===12)forms.push("0"+code);            // UPC-A is EAN-13 with a leading zero
+  else if(code.length===13&&code[0]==="0")forms.push(code.slice(1));
   for(const fn of [viaWorker,viaOBF,viaRakuten]){
-    try{const r=await fn(code);if(r)return r;}catch(e){}
+    for(const c of forms){
+      try{const r=await fn(c);if(r)return r;}catch(e){}
+    }
   }
   return null;
 }
@@ -1329,14 +1334,15 @@ async function decodeImage(file){
   const tries=[1,2,3];   // small barcodes need the extra pixels
   if("BarcodeDetector" in window){
     try{
-      let f=["ean_13","ean_8","upc_a","upc_e","code_128","code_39","itf"];
+      let f=["ean_13","ean_8","upc_a","upc_e"];
       try{const sup=await window.BarcodeDetector.getSupportedFormats();
         if(sup&&sup.length)f=f.filter(x=>sup.includes(x));}catch(e){}
       const det=new window.BarcodeDetector({formats:f});
       for(const k of tries){
         const src=k===1?bmp:upscale(bmp,k);
         const hits=await det.detect(src);
-        if(hits&&hits.length&&hits[0].rawValue)return hits[0].rawValue;
+        const raw=hits&&hits.length&&hits[0].rawValue?String(hits[0].rawValue).replace(/\D/g,""):null;
+        if(raw&&checkDigitOK(raw))return raw;
       }
     }catch(e){}
   }
@@ -1344,14 +1350,15 @@ async function decodeImage(file){
     await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
     const hints=new Map(), F=window.ZXing.BarcodeFormat;
     hints.set(window.ZXing.DecodeHintType.POSSIBLE_FORMATS,
-      [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF]);
+      [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E]);
     hints.set(window.ZXing.DecodeHintType.TRY_HARDER,true);
     const reader=new window.ZXing.BrowserMultiFormatReader(hints);
     for(const k of tries){
       const cv=upscale(bmp,k);
       try{
         const res=await reader.decodeFromCanvas(cv);
-        if(res&&res.getText())return res.getText();
+        const raw=res&&res.getText()?String(res.getText()).replace(/\D/g,""):null;
+        if(raw&&checkDigitOK(raw))return raw;
       }catch(e){}
     }
   }catch(e){}
@@ -1493,7 +1500,7 @@ async function openScan(){
   }
 
   async function startNative(){
-    let f=["ean_13","ean_8","upc_a","upc_e","code_128","code_39","itf"];
+    let f=["ean_13","ean_8","upc_a","upc_e"];
     try{const sup=await window.BarcodeDetector.getSupportedFormats();
       if(sup&&sup.length)f=f.filter(x=>sup.includes(x));}catch(e){}
     if(!f.length)throw new Error("no formats");
@@ -1503,7 +1510,8 @@ async function openScan(){
     tick(async(src)=>{
       if(!src)return null;
       const hits=await det.detect(src);
-      return hits&&hits.length&&hits[0].rawValue?hits[0].rawValue:null;
+      const raw=hits&&hits.length&&hits[0].rawValue?String(hits[0].rawValue).replace(/\D/g,""):null;
+      return raw&&confirmRead(raw)?raw:null;
     })();
   }
   async function startZXing(force){
@@ -1513,13 +1521,15 @@ async function openScan(){
       const hints=new Map();
       const F=window.ZXing.BarcodeFormat;
       hints.set(window.ZXing.DecodeHintType.POSSIBLE_FORMATS,
-        [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF]);
+        [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E]);
       hints.set(window.ZXing.DecodeHintType.TRY_HARDER,true);
       const reader=new window.ZXing.BrowserMultiFormatReader(hints);
       scanState.reader=reader;scanState.engine="ZXing";
       msg.textContent="Hold the barcode inside the box.";
       reader.decodeFromVideoElement(video,res=>{
-        if(res&&scanState&&!scanState.stop)onCode(res.getText());
+        if(!res||!scanState||scanState.stop)return;
+        const raw=String(res.getText()).replace(/\D/g,"");
+        if(confirmRead(raw))onCode(raw);
       });
       const beat=()=>{if(!scanState||scanState.stop)return;scanState.frames++;paintDiag();setTimeout(beat,140);};
       beat();
@@ -1546,13 +1556,36 @@ function wireManual(){
   const go=document.getElementById("mGo"), inp=document.getElementById("mIn");
   if(!go)return;
   const fire=()=>{const v=(inp.value||"").replace(/\D/g,"");
-    if(v.length>=6)onCode(v);else toast("That's too short for a barcode.");};
+    if(v.length<6)return toast("That's too short for a barcode.");
+    if(!checkDigitOK(v)&&!confirm("That doesn't match its check digit — a digit may be wrong. Use it anyway?"))return;
+    readSeen="";readCount=0;onCode(v);};
   go.onclick=fire;inp.onkeydown=e=>{if(e.key==="Enter")fire();};
 }
 function loadScript(src){return new Promise((res,rej)=>{
   const t=document.createElement("script");t.src=src;t.onload=res;
   t.onerror=()=>rej(new Error("blocked"));document.head.appendChild(t);});}
 
+/* Every GS1 retail barcode carries a check digit, weights alternating 3,1
+   from the right. A misread almost never satisfies it. */
+function checkDigitOK(code){
+  const d=[...code].map(Number);
+  if(d.some(Number.isNaN))return false;
+  const n=d.length;
+  if(n!==8&&n!==12&&n!==13)return false;
+  let sum=0;
+  for(let i=0;i<n-1;i++){
+    const fromRight=(n-2)-i;
+    sum+=d[i]*(fromRight%2===0?3:1);
+  }
+  return ((10-sum%10)%10)===d[n-1];
+}
+// A code must be read twice running before we act on it.
+let readSeen="",readCount=0;
+function confirmRead(code){
+  if(!checkDigitOK(code)){readSeen="";readCount=0;return false;}
+  if(code===readSeen)readCount++;else{readSeen=code;readCount=1;}
+  return readCount>=2;
+}
 async function onCode(code){
   code=String(code).replace(/\D/g,"");if(!code)return;
   closeScan();
