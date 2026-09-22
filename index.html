@@ -1200,13 +1200,27 @@ function parseJpSize(t){
   const v=parseFloat(m[1].replace(",","."));
   return (v>0&&v<=2000)?v:null;
 }
+let lastTrace=null;
 async function viaWorker(code){
-  if(!CFG.workerUrl)return null;
+  if(!CFG.workerUrl){lastTrace={worker:"not configured"};return null;}
   const base=CFG.workerUrl.replace(/\/+$/,"");
-  const r=await fetch(base+"/lookup?code="+encodeURIComponent(code));
-  if(!r.ok)return null;
+  let r;
+  try{r=await fetch(base+"/lookup?code="+encodeURIComponent(code));}
+  catch(e){lastTrace={worker:"unreachable — wrong URL, or this origin isn't in ALLOWED_ORIGINS"};return null;}
+  if(!r.ok){lastTrace={worker:"HTTP "+r.status};return null;}
   const d=await r.json().catch(()=>null);
-  return d&&d.found?d.result:null;
+  if(!d){lastTrace={worker:"bad response"};return null;}
+  lastTrace={worker:"answered",tried:d.tried||[],configured:d.configured||null};
+  return d.found?d.result:null;
+}
+function traceHTML(){
+  if(!lastTrace)return "";
+  if(lastTrace.worker!=="answered")
+    return `<div class="diag mono">Worker: ${esc(lastTrace.worker)}</div>`;
+  const c=lastTrace.configured||{};
+  const offList=Object.entries(c).filter(([k,v])=>v===false).map(([k])=>k);
+  return `<div class="diag mono">Worker answered · tried ${esc((lastTrace.tried||[]).join(", ")||"nothing")}
+    ${offList.length?`<br>No key set for: ${esc(offList.join(", "))}`:""}</div>`;
 }
 async function viaOBF(code){
   const r=await fetch("https://world.openbeautyfacts.org/api/v2/product/"+encodeURIComponent(code)+
@@ -1259,6 +1273,7 @@ function sourcesHTML(){
       <div class="rowbtns"><button class="btn btn-sm" data-goto="settings">Open settings</button></div>`:""}`;
 }
 async function lookupAny(code){
+  lastTrace=null;
   for(const fn of [viaWorker,viaOBF,viaRakuten]){
     try{const r=await fn(code);if(r)return r;}catch(e){}
   }
@@ -1559,6 +1574,7 @@ function bindPrompt(code,found){
         <b>Scanned it — ${esc(code)}</b><div style="margin-top:3px">The camera and decoder worked.
         None of the databases below hold this code.</div></div>
       ${sourcesHTML()}
+      ${traceHTML()}
       <div class="field" style="margin-top:12px"><label for="pasteIn">Or paste what another app found</label>
         <input type="text" id="pasteIn" placeholder="Bioré UV Aqua Rich Watery Essence 70g" autocomplete="off"></div>
       <div class="rowbtns" style="margin-top:0"><button class="btn btn-sm" id="pasteGo">Add from that</button></div>
@@ -1665,8 +1681,13 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
       const r=await fetch(CFG.workerUrl+"/lookup?code=5017634238483");
       const d=await r.json().catch(()=>null);
       if(!r.ok||!d)throw new Error("HTTP "+r.status);
+      const cfg=d.configured||{};
+      const off=Object.entries(cfg).filter(([k,v])=>v===false).map(([k])=>k);
       wout.innerHTML='<div class="ai"><b>'+(d.found?"Working.":"Reachable, but no match.")+'</b> Tried: '+
-        esc((d.tried||[]).join(", ")||"nothing")+(d.found&&d.result?'<br>Returned “'+esc(d.result.name||"")+'”.':'')+'</div>';
+        esc((d.tried||[]).join(", ")||"nothing")+
+        (d.found&&d.result?'<br>Returned “'+esc(d.result.name||"")+'”.':'')+
+        (off.length?'<br><b>No key set for: '+esc(off.join(", "))+'</b> — run <span class="mono">wrangler secret put</span> for those, or they are skipped.':'')+
+        '</div>';
     }catch(e){wout.innerHTML='<div class="ai">Couldn\'t reach it: <b>'+esc(e.message||"failed")+
       '</b>. Check the URL, and that your origin is in ALLOWED_ORIGINS.</div>';}
   };

@@ -180,7 +180,23 @@ export default {
     if (request.method !== "GET") return json({ error: "method not allowed" }, 405, origin);
 
     const url = new URL(request.url);
-    if (url.pathname === "/health") return json({ ok: true }, 200, origin);
+    const configured = {
+      openBeautyFacts: true,
+      rakuten: !!env.RAKUTEN_ID,
+      naver: !!(env.NAVER_ID && env.NAVER_SECRET),
+      barcodeLookup: !!env.BARCODE_LOOKUP_KEY,
+      upcitemdb: env.UPCITEMDB_KEY ? "key" : "trial",
+    };
+    if (url.pathname === "/health") {
+      const live = Object.entries(configured).filter(([, v]) => v && v !== "trial").length;
+      return json({
+        ok: true, configured, liveSources: live,
+        hint: live <= 1
+          ? "Only Open Beauty Facts is active — it holds almost nothing Japanese or Korean. Set RAKUTEN_ID and NAVER_ID/NAVER_SECRET with `wrangler secret put`."
+          : "Multiple sources active.",
+        allowedOrigins: ALLOWED_ORIGINS,
+      }, 200, origin);
+    }
     if (url.pathname !== "/lookup") return json({ error: "not found" }, 404, origin);
 
     const code = (url.searchParams.get("code") || "").replace(/\D/g, "");
@@ -210,6 +226,6 @@ export default {
       if (result && result.name && result.volumeMl && result.ingredients) break;
     }
 
-    return json({ found: !!result, result, tried, code }, 200, origin);
+    return json({ found: !!result, result, tried, code, configured }, 200, origin);
   },
 };
