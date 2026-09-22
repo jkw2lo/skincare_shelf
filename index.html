@@ -415,8 +415,12 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const byId=id=>ITEMS.find(p=>p.id===id);
 
 /* ============ persistence ============ */
-const STORE_KEY="shelflife.items";
+const STORE_KEY="shelflife.items", CFG_KEY="shelflife.cfg";
+let CFG={rakutenId:""};
+function loadCfg(){try{const r=localStorage.getItem(CFG_KEY);if(r)CFG=Object.assign(CFG,JSON.parse(r));}catch(e){}}
+function saveCfg(){try{localStorage.setItem(CFG_KEY,JSON.stringify(CFG));}catch(e){}}
 function boot(){
+  loadCfg();
   try{const raw=localStorage.getItem(STORE_KEY);if(raw){const d=JSON.parse(raw);if(d&&d.length)ITEMS=d;}}catch(e){}
   if(!ITEMS.length)ITEMS=JSON.parse(JSON.stringify(SEED.items));
   renderAll();
@@ -673,7 +677,7 @@ function openDrawer(id,keepScroll){
         <input type="text" id="bcIn" value="${esc(p.barcode||"")}" placeholder="scan or type the digits" inputmode="numeric"></div>
       <p class="note">Bind it once and scanning this bottle opens it straight away.</p>
       <div class="rowbtns"><button class="btn btn-sm" data-act="lookup">Look it up online</button></div>
-      ${p.lookedUp?`<div class="ai"><b>Filled from Open Beauty Facts</b> on ${esc(p.lookedUp)}. Check it against the bottle — the database is crowd-sourced.</div>`:""}
+      ${p.lookedUp?`<div class="ai"><b>Filled from ${esc(p.lookedUpVia||"Open Beauty Facts")}</b> on ${esc(p.lookedUp)}. Check it against the bottle — the database is crowd-sourced.</div>`:""}
       ${p.photo?`<img src="${esc(p.photo)}" alt="" style="margin-top:10px;max-height:150px;border-radius:7px;border:1px solid var(--line)">`:""}
       ${p.ingredients?`<h4 style="margin-top:12px">Ingredients</h4><div class="ing">${esc(p.ingredients)}</div>`:""}
     </div>
@@ -874,20 +878,58 @@ async function fetchBarcode(code){
     photo:p.image_front_small_url||null
   };
 }
+// Rakuten Ichiba — Japan's largest marketplace, so JAN coverage for JP drugstore
+// cosmetics is strong. Sends Access-Control-Allow-Origin: *, so the browser may call it.
+const RAKUTEN="https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601";
+function parseJpSize(title){
+  // Japanese listings carry the size in the title: "ビオレUV アクアリッチ 70g"
+  const m=String(title||"").match(/(\d+(?:[.,]\d+)?)\s*(ml|mL|ML|ｍｌ|g|ｇ|G|グラム|ミリ)/);
+  if(!m)return null;
+  const v=parseFloat(m[1].replace(",","."));
+  return (v>0&&v<=2000)?v:null;   // g and ml are interchangeable enough for skincare
+}
+async function fetchRakuten(code){
+  if(!CFG.rakutenId)return null;
+  const u=RAKUTEN+"?format=json&hits=3&applicationId="+encodeURIComponent(CFG.rakutenId)
+    +"&keyword="+encodeURIComponent(code);
+  const r=await fetch(u);
+  if(!r.ok)return null;
+  const d=await r.json();
+  const items=(d&&d.Items||[]).map(x=>x&&x.Item).filter(Boolean);
+  if(!items.length)return null;
+  // the shortest title is usually the cleanest listing rather than a bundle
+  const it=items.slice().sort((a,b)=>String(a.itemName||"").length-String(b.itemName||"").length)[0];
+  const img=(it.mediumImageUrls&&it.mediumImageUrls[0]&&
+    (it.mediumImageUrls[0].imageUrl||it.mediumImageUrls[0]))||null;
+  return {name:(it.itemName||"").trim()||null, brand:null,
+    volumeMl:parseJpSize(it.itemName), paoMonths:null, ingredients:null,
+    photo:img?String(img).replace(/\?.*$/,""):null, source:"Rakuten"};
+}
+// Open Beauty Facts first (it carries ingredients and PAO), Rakuten as the JP fallback.
+async function lookupAny(code){
+  let r=null;
+  try{r=await fetchBarcode(code);}catch(e){}
+  if(r){r.source="Open Beauty Facts";return r;}
+  try{return await fetchRakuten(code);}catch(e){}
+  return null;
+}
+
 async function lookupOnline(p,btn){
   if(!p.barcode){toast("Add the barcode first, then look it up.");return;}
   const old=btn.textContent;btn.textContent="Looking…";btn.disabled=true;
   try{
-    const r=await fetchBarcode(p.barcode);
-    if(!r){toast("Not in Open Beauty Facts — most JP and KR products aren't.");return;}
+    const r=await lookupAny(p.barcode);
+    if(!r){toast(CFG.rakutenId?"Not in Open Beauty Facts or Rakuten."
+      :"Not in Open Beauty Facts. Add a Rakuten key in ⋯ to cover Japanese products.");return;}
     mutate(()=>{
       if(r.volumeMl&&!p.volumeMl)p.volumeMl=r.volumeMl;
       if(r.paoMonths)p.paoMonths=r.paoMonths;
       if(r.ingredients)p.ingredients=r.ingredients;
       if(r.photo)p.photo=r.photo;
-      p.lookedUp=today();
+      if(r.name&&/^New product$/.test(p.name))p.name=r.name;
+      p.lookedUp=today();p.lookedUpVia=r.source||null;
     });
-    toast("Filled in from Open Beauty Facts.");
+    toast("Filled in from "+(r.source||"the database")+".");
   }catch(e){toast("Couldn't reach the database — check your connection.");}
   finally{btn.textContent=old;btn.disabled=false;}
 }
@@ -918,7 +960,16 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
     <div class="rowbtns"><button class="btn" id="expBtn">Export JSON</button>
     <button class="btn" id="impBtn">Import JSON</button></div>
     <input type="file" id="impFile" accept="application/json" hidden>
-    <p class="note" style="margin-top:14px">${ITEMS.length} products · last saved to this device.</p>`);
+    <p class="note" style="margin-top:14px">${ITEMS.length} products · last saved to this device.</p>
+    <div class="sec" style="border-top:1px solid var(--line);margin-top:16px"><h4>Japanese barcode lookup</h4>
+      <div class="field"><label for="rakIn">Rakuten application ID</label>
+        <input type="text" id="rakIn" value="${esc(CFG.rakutenId)}" placeholder="paste it here" autocomplete="off"></div>
+      <p class="note">Open Beauty Facts barely covers Japanese products. Rakuten does, and is the only
+        database a browser is allowed to call directly. Get a free ID at
+        <b>webservice.rakuten.co.jp</b> — it stays in this browser and never reaches the public repo.</p>
+      <div class="rowbtns"><button class="btn btn-sm" id="rakTest">Save and test</button></div>
+      <div id="rakOut"></div>
+    </div>`);
   drawerEl.querySelector("h3").textContent="Backup";
   document.getElementById("expBtn").onclick=()=>{
     const blob=new Blob([JSON.stringify({items:ITEMS,schema:1,exportedAt:new Date().toISOString()},null,1)],
@@ -929,6 +980,25 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
   };
   const f=document.getElementById("impFile");
   document.getElementById("impBtn").onclick=()=>f.click();
+  const rak=document.getElementById("rakIn"), rout=document.getElementById("rakOut");
+  document.getElementById("rakTest").onclick=async()=>{
+    CFG.rakutenId=(rak.value||"").trim();saveCfg();
+    if(!CFG.rakutenId){rout.innerHTML='<p class="note">Cleared.</p>';return;}
+    rout.innerHTML='<p class="note">Testing…</p>';
+    try{
+      const r=await fetch(RAKUTEN+"?format=json&hits=1&applicationId="+
+        encodeURIComponent(CFG.rakutenId)+"&keyword="+encodeURIComponent("4901301280367"));
+      const d=await r.json().catch(()=>null);
+      if(!r.ok||d&&d.error){
+        rout.innerHTML='<div class="ai">Rakuten rejected that ID: <b>'+
+          esc(d&&(d.error_description||d.error)||("HTTP "+r.status))+'</b></div>';return;
+      }
+      const hits=(d&&d.Items||[]).length;
+      rout.innerHTML='<div class="ai"><b>Working.</b> '+(hits
+        ?'Test barcode returned “'+esc(((d.Items[0]||{}).Item||{}).itemName||"a result")+'”.'
+        :'The ID is accepted; that test barcode had no listing.')+'</div>';
+    }catch(e){rout.innerHTML='<div class="ai">Couldn\'t reach Rakuten.</div>';}
+  };
   f.onchange=async()=>{
     const file=f.files&&f.files[0];if(!file)return;
     try{
@@ -1035,15 +1105,16 @@ async function onCode(code){
   if(navigator.vibrate)try{navigator.vibrate(40);}catch(e){}
   const hit=ITEMS.find(p=>p.barcode===code);
   if(hit){toast("Found it.");openDrawer(hit.id);return;}
-  scanShell(`<p class="note" style="margin:0 0 10px">Barcode <b class="mono">${esc(code)}</b> is new. Checking Open Beauty Facts…</p>`);
+  scanShell(`<p class="note" style="margin:0 0 10px">Barcode <b class="mono">${esc(code)}</b> is new. Looking it up…</p>`);
   let found=null;
-  try{found=await fetchBarcode(code);}catch(e){}
+  try{found=await lookupAny(code);}catch(e){}
   bindPrompt(code,found);
 }
 function bindPrompt(code,found){
   const unbound=ITEMS.filter(p=>!p.barcode);
   scanShell(`
     ${found?`<div class="ai" style="margin:0 0 12px"><b>${esc([found.brand,found.name].filter(Boolean).join(" — ")||"Found a record")}</b>
+      <div class="mono" style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:3px">via ${esc(found.source||"database")}</div>
       ${found.volumeMl?" · "+found.volumeMl+" ml":""}${found.paoMonths?" · "+found.paoMonths+"M PAO":""}
       <div style="margin-top:6px"><button class="btn btn-sm" id="addFound">Add as a new product</button></div></div>`
      :`<p class="note" style="margin:0 0 10px">Barcode <b class="mono">${esc(code)}</b> isn't in Open Beauty Facts —
