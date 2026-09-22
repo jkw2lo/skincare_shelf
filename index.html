@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#EDEFE9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131714" media="(prefers-color-scheme: dark)">
+<meta name="description" content="A visual skincare inventory: products on shelves that drain as you use them.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+<script>const SEED={"items":[{"id":"p01","brand":"Anessa","name":"Sunscreen - Moisture","category":"Sunscreen","container":"tube","volumeMl":90.0,"sheets":null,"color":"#C8A02E","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p02","brand":"Biore","name":"UV Aqua Rich","category":"Sunscreen","container":"tube","volumeMl":120.0,"sheets":null,"color":"#1B6FB8","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p03","brand":"Biore","name":"UV Athlizm Spray","category":"Sunscreen","container":"spray","volumeMl":70.0,"sheets":null,"color":"#1B6FB8","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p04","brand":"Sekkisui","name":"BB Sunscreen","category":"Sunscreen","container":"tube","volumeMl":23.0,"sheets":null,"color":"#6BB7D6","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p05","brand":"Rohto","name":"Skin Aqua Serum UV","category":"Sunscreen","container":"bottle","volumeMl":70.0,"sheets":null,"color":"#2E9BD6","sealed":3,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p06","brand":"Biore","name":"UV Athlizm Cream","category":"Sunscreen","container":"tube","volumeMl":70.0,"sheets":null,"color":"#1B6FB8","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p07","brand":"Biore","name":"UV Aqua Rich (Tube)","category":"Sunscreen","container":"tube","volumeMl":70.0,"sheets":null,"color":"#1B6FB8","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p08","brand":"Biore","name":"UV Aqua Rich Watery Hold","category":"Sunscreen","container":"tube","volumeMl":50.0,"sheets":null,"color":"#1B6FB8","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"coin","schedule":"am","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p09","brand":"Bifesta","name":"Micellar Eye Makeup Remover","category":"Remover","container":"bottle","volumeMl":145.0,"sheets":null,"color":"#E64A7E","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"pm","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p10","brand":"Kansosan","name":"Medical Moisture Essence Cream","category":"Moisturizer","container":"jar","volumeMl":50.0,"sheets":null,"color":"#8FBF6B","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p11","brand":"Bifesta","name":"Makeup Remover Wipes","category":"Remover","container":"pouch","volumeMl":null,"sheets":46,"color":"#E64A7E","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"pm","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p12","brand":"Lululun","name":"Hydra AZ Mask","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":28,"color":"#E58FB0","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p13","brand":"Lululun","name":"Pure","category":"Sheet Mask","container":"tub","volumeMl":null,"sheets":28,"color":"#E58FB0","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p14","brand":"Clear Turn","name":"Brightening Mask","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":30,"color":"#7FC4DE","sealed":0,"open":true,"baseline":0.6,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p15","brand":"Tatcha","name":"Clarifying Clay Mask","category":"Clay Mask","container":"tub","volumeMl":50.0,"sheets":null,"color":"#6B4C8C","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"w2","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p16","brand":"Ryo","name":"Root Gen For Scalp","category":"Hair","container":"bottle","volumeMl":80.0,"sheets":null,"color":"#2E6B4F","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"pump2","schedule":"both","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p17","brand":"Shiseido","name":"Ultimune Eye Serum","category":"Eye","container":"dropper","volumeMl":15.0,"sheets":null,"color":"#C8102E","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"rice","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p18","brand":"Lucido L","name":"Argan Rich Oil Frizz Care","category":"Hair","container":"bottle","volumeMl":60.0,"sheets":null,"color":"#C9A227","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"pump2","schedule":"both","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p19","brand":"Lucido L","name":"Argan Rich Oil Repair","category":"Hair","container":"bottle","volumeMl":60.0,"sheets":null,"color":"#C9A227","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"pump2","schedule":"both","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p20","brand":"Charlotte Tilbury","name":"Beautiful Skin","category":"Makeup","container":"tube","volumeMl":30.0,"sheets":null,"color":"#B08D57","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p21","brand":"Kate","name":"Lip Monster Color Toner","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#262626","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p22","brand":"Canmake","name":"Eyeshadow","category":"Makeup","container":"compact","volumeMl":null,"sheets":null,"color":"#F08CA8","sealed":4,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":24,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p23","brand":"Canmake","name":"Highligher","category":"Makeup","container":"compact","volumeMl":null,"sheets":null,"color":"#F08CA8","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":24,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p24","brand":"Suhada Kinenbi","name":"Powder","category":"Makeup","container":"compact","volumeMl":null,"sheets":null,"color":"#E8AFC0","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":24,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p25","brand":"Innisfree","name":"Mineral Setting Powder","category":"Makeup","container":"compact","volumeMl":null,"sheets":null,"color":"#4C8C3F","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":24,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p26","brand":"MakeKeep","name":"Setting Powder","category":"Makeup","container":"compact","volumeMl":null,"sheets":null,"color":"#7A8B99","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":24,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p27","brand":"Shiseido","name":"Lipstick","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#C8102E","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p28","brand":"DHC","name":"Lipbalm","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#003C71","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p29","brand":"Mentholatum","name":"Tinted Lipbalm","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#D64541","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p30","brand":"Shiseido","name":"Bio-Performance Full Expansion Serum Day","category":"Serum","container":"dropper","volumeMl":30.0,"sheets":null,"color":"#C8102E","sealed":1,"open":true,"baseline":0.5,"openedAt":null,"dose":"drop3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p31","brand":"Shiseido","name":"Bio-Performance Full Expansion Serum Night","category":"Serum","container":"dropper","volumeMl":30.0,"sheets":null,"color":"#C8102E","sealed":1,"open":true,"baseline":0.1,"openedAt":null,"dose":"drop3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p32","brand":"Tony Moly","name":"Green Tea Cream","category":"Moisturizer","container":"jar","volumeMl":60.0,"sheets":null,"color":"#7FBF3F","sealed":4,"open":false,"baseline":1.0,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p33","brand":"Aqua Label","name":"Special Gel Cream Ex Brightening","category":"Moisturizer","container":"jar","volumeMl":90.0,"sheets":null,"color":"#E8A0BF","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p34","brand":"Aqua Label","name":"Special Gel Cream Ex Moisture","category":"Moisturizer","container":"jar","volumeMl":90.0,"sheets":null,"color":"#E8A0BF","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p35","brand":"Tatcha","name":"The Texture Tonic","category":"Toner","container":"tallbottle","volumeMl":150.0,"sheets":null,"color":"#6B4C8C","sealed":0,"open":true,"baseline":0.8,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p36","brand":"Sana","name":"Eye Serum","category":"Eye","container":"dropper","volumeMl":15.0,"sheets":null,"color":"#D95C8A","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"rice","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p37","brand":"Cle de Peau","name":"Hydro Softening Lotion","category":"Toner","container":"tallbottle","volumeMl":170.0,"sheets":null,"color":"#1F2440","sealed":0,"open":true,"baseline":0.2,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p38","brand":"Cle de Peau","name":"Eye Contour cream Supreme","category":"Eye","container":"smalljar","volumeMl":2.0,"sheets":null,"color":"#1F2440","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"rice","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p39","brand":"Cle de Peau","name":"Volumizing Cream Supreme","category":"Moisturizer","container":"smalljar","volumeMl":5.0,"sheets":null,"color":"#1F2440","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p40","brand":"The Saem","name":"Concealer","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#6FB98F","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p41","brand":"Calypso","name":"Magic Concealer","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#E07B39","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p42","brand":"Canmake","name":"Mascara Remover","category":"Remover","container":"bottle","volumeMl":6.6,"sheets":null,"color":"#F08CA8","sealed":3,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"pm","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p43","brand":"Canmake","name":"Mascara Remover","category":"Remover","container":"bottle","volumeMl":7.3,"sheets":null,"color":"#F08CA8","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"pm","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p44","brand":"Canmake","name":"Mascara Remover","category":"Remover","container":"bottle","volumeMl":4.0,"sheets":null,"color":"#F08CA8","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"palm","schedule":"pm","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p45","brand":"Canmake","name":"Mascara","category":"Makeup","container":"stick","volumeMl":6.0,"sheets":null,"color":"#F08CA8","sealed":2,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p46","brand":"Canmake","name":"Eyeliner - Brown/Black","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#F08CA8","sealed":4,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p47","brand":"Canmake","name":"Eyeliner - Oolong","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#F08CA8","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p48","brand":"Shiseido","name":"Eyebrow Pencil","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#C8102E","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p49","brand":"BrowEx","name":"Eyebrow Pencil","category":"Makeup","container":"stick","volumeMl":null,"sheets":null,"color":"#6B5B4F","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p50","brand":"ettusais","name":"mascara","category":"Makeup","container":"stick","volumeMl":6.0,"sheets":null,"color":"#D98BA5","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"none","schedule":"none","paoMonths":3,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p51","brand":"Kurobara","name":"Camellia Oil","category":"Hair","container":"bottle","volumeMl":47.0,"sheets":null,"color":"#2B2B2B","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"pump2","schedule":"both","paoMonths":12,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p52","brand":"Tatcha","name":"The Dewy Serum","category":"Serum","container":"dropper","volumeMl":30.0,"sheets":null,"color":"#6B4C8C","sealed":0,"open":true,"baseline":0.4,"openedAt":null,"dose":"drop3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p53","brand":"Aestura","name":"Atobarrier Hydro Essence","category":"Serum","container":"dropper","volumeMl":25.0,"sheets":null,"color":"#4A7FB5","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"drop3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p54","brand":"Vita C","name":"Vitamin C Serum","category":"Serum","container":"dropper","volumeMl":20.0,"sheets":null,"color":"#E8A317","sealed":0,"open":true,"baseline":0.9,"openedAt":null,"dose":"drop3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p55","brand":"Estee Lauder","name":"Advanced Night Serum","category":"Eye","container":"dropper","volumeMl":15.0,"sheets":null,"color":"#1B3A5C","sealed":0,"open":true,"baseline":0.75,"openedAt":null,"dose":"rice","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p56","brand":"Dr Althea","name":"345 Relief Cream","category":"Moisturizer","container":"smalljar","volumeMl":null,"sheets":null,"color":"#3FA9A0","sealed":0,"open":true,"baseline":0.85,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p57","brand":"HadoLabo","name":"Premium Toner","category":"Toner","container":"tallbottle","volumeMl":170.0,"sheets":null,"color":"#E8B923","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p58","brand":"Holika Holika","name":"Gold Kiwi Brightening Toner","category":"Toner","container":"tallbottle","volumeMl":150.0,"sheets":null,"color":"#E8467C","sealed":0,"open":true,"baseline":0.6,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p59","brand":"ilso","name":"super melting sebum softener","category":"Treatment","container":"bottle","volumeMl":150.0,"sheets":null,"color":"#8C7BB5","sealed":1,"open":true,"baseline":0.3,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p60","brand":"Onwakan","name":"Hot Nose Gel","category":"Treatment","container":"bottle","volumeMl":30.0,"sheets":null,"color":"#D9544D","sealed":0,"open":true,"baseline":0.95,"openedAt":null,"dose":"splash","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p61","brand":"abib","name":"Collagen Eye Patch","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":null,"color":"#4A9D7F","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p62","brand":"Tony Moly","name":"Clarifying Clay Mask","category":"Clay Mask","container":"tub","volumeMl":100.0,"sheets":null,"color":"#7FBF3F","sealed":1,"open":true,"baseline":0.5,"openedAt":null,"dose":"palm","schedule":"w2","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p63","brand":"abib","name":"rice probiotics overnight mask","category":"Sheet Mask","container":"pouch","volumeMl":80.0,"sheets":null,"color":"#4A9D7F","sealed":1,"open":false,"baseline":1.0,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p64","brand":"Holika Holika","name":"Vita C Pads","category":"Exfoliant","container":"tub","volumeMl":null,"sheets":80,"color":"#E8467C","sealed":0,"open":true,"baseline":0.75,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p65","brand":"Tatcha","name":"Rice Polish Deep","category":"Exfoliant","container":"tub","volumeMl":null,"sheets":null,"color":"#6B4C8C","sealed":0,"open":true,"baseline":0.7,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p66","brand":"Sana","name":"Soybean Night Cream","category":"Moisturizer","container":"jar","volumeMl":50.0,"sheets":null,"color":"#D95C8A","sealed":0,"open":true,"baseline":0.3,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p67","brand":"Tatcha","name":"Water Cream","category":"Moisturizer","container":"smalljar","volumeMl":10.0,"sheets":null,"color":"#6B4C8C","sealed":0,"open":true,"baseline":0.3,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p68","brand":"Tatcha","name":"Dewy Skin Cream","category":"Moisturizer","container":"jar","volumeMl":50.0,"sheets":null,"color":"#6B4C8C","sealed":0,"open":true,"baseline":0.45,"openedAt":null,"dose":"dots3","schedule":"both","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p69","brand":"Lululun","name":"Precious Moist Mask","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":28,"color":"#E58FB0","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p70","brand":"Bihada Syokunin","name":"Smoothing Mask","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":7,"color":"#A8C8D8","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p71","brand":"Lululun","name":"Vitamin C Mask","category":"Sheet Mask","container":"pouch","volumeMl":null,"sheets":7,"color":"#E58FB0","sealed":0,"open":true,"baseline":0.5,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null},{"id":"p72","brand":"Medicube","name":"Zero Pore Pad","category":"Exfoliant","container":"tub","volumeMl":null,"sheets":70,"color":"#2B4C8C","sealed":0,"open":true,"baseline":0.25,"openedAt":null,"dose":"sheet","schedule":"w3","paoMonths":6,"activeSince":null,"activeDays":0,"slot":null,"barcode":null,"ingredients":null,"assetId":null,"notes":null}],"seededAt":"2026-09-22","schema":1};</script>
+</head>
+<body>
+<title>Shelf Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#EDEFE9; --surface:#F8F9F5; --sunk:#E3E6DE; --ink:#1A211C; --ink-2:#44524A; --muted:#6B7A70;
+  --line:#D2D8CD; --line-2:#BFC7B9;
+  --wood:#D9C9AC; --wood-2:#C4AE8A; --wood-edge:#A88F66; --wood-shadow:#00000014;
+  --accent:#D8562B; --accent-ink:#FFF6F2; --indigo:#2C4A5E;
+  --good:#3F7D50; --warn:#B07C12; --crit:#A3372B;
+  --good-bg:#E2EEE3; --warn-bg:#F5EBD4; --crit-bg:#F4DED9;
+  --glass:#FFFFFFAA; --glass-line:#0000001F;
+  --shadow:0 1px 2px #0000000F, 0 6px 16px -8px #0000002E;
+  --radius:10px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#131714; --surface:#1C2220; --sunk:#171C19; --ink:#E9EEE7; --ink-2:#BCC7BD; --muted:#8B9A90;
+  --line:#2C3531; --line-2:#3C4740;
+  --wood:#3E3526; --wood-2:#2E281C; --wood-edge:#544733; --wood-shadow:#00000055;
+  --accent:#F07B4D; --accent-ink:#241009; --indigo:#8FB4CC;
+  --good:#6FB884; --warn:#D9AB4A; --crit:#E0705E;
+  --good-bg:#1D2C22; --warn-bg:#2E2717; --crit-bg:#33201C;
+  --glass:#FFFFFF12; --glass-line:#FFFFFF2B;
+  --shadow:0 1px 2px #00000044, 0 8px 20px -10px #00000077;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#131714; --surface:#1C2220; --sunk:#171C19; --ink:#E9EEE7; --ink-2:#BCC7BD; --muted:#8B9A90;
+  --line:#2C3531; --line-2:#3C4740;
+  --wood:#3E3526; --wood-2:#2E281C; --wood-edge:#544733; --wood-shadow:#00000055;
+  --accent:#F07B4D; --accent-ink:#241009; --indigo:#8FB4CC;
+  --good:#6FB884; --warn:#D9AB4A; --crit:#E0705E;
+  --good-bg:#1D2C22; --warn-bg:#2E2717; --crit-bg:#33201C;
+  --glass:#FFFFFF12; --glass-line:#FFFFFF2B;
+  --shadow:0 1px 2px #00000044, 0 8px 20px -10px #00000077;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Zen Kaku Gothic New",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;
+  font-size:14px; line-height:1.5; -webkit-text-size-adjust:100%;
+}
+.mono{font-family:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- chrome ---------- */
+.top{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1400px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sign{display:flex;align-items:baseline;gap:9px;margin-right:auto}
+.sign h1{margin:0;font-size:20px;font-weight:900;letter-spacing:-.015em;line-height:1}
+.sign .jp{font-size:11px;color:var(--muted);letter-spacing:.22em;font-weight:500}
+.tally{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.tally div{padding:5px 11px;border-right:1px solid var(--line);text-align:center;min-width:64px}
+.tally div:last-child{border-right:none}
+.tally b{display:block;font-family:"Space Mono",monospace;font-size:15px;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.tally span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.tally .hi b{color:var(--accent)}
+.btn{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:background .12s,border-color .12s}
+.btn:hover{background:var(--sunk);border-color:var(--muted)}
+.btn-hero{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.btn-hero:hover{background:var(--accent);filter:brightness(1.07)}
+.btn-sm{padding:4px 9px;font-size:12px;border-radius:7px}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.search{flex:0 1 210px;min-width:120px;background:var(--bg);border:1px solid var(--line-2);border-radius:8px;
+  padding:7px 11px;font:inherit;font-size:13px;color:var(--ink)}
+.search::placeholder{color:var(--muted)}
+.tabs{display:none;gap:4px;background:var(--sunk);padding:3px;border-radius:9px}
+.tabs button{padding:6px 14px;border-radius:7px;font-size:13px;font-weight:700;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+.wrap{max-width:1400px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:20px;align-items:start}
+
+/* ---------- shelves ---------- */
+.aisle{display:flex;flex-direction:column;gap:6px;min-width:0}
+.shelf{position:relative}
+.shelf-head{display:flex;align-items:center;gap:10px;padding:0 2px 5px}
+.tag{font-family:"Space Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--accent);color:var(--accent-ink);padding:2px 8px;border-radius:3px}
+.tag.plain{background:var(--indigo);color:var(--surface)}
+.shelf-head .n{font-family:"Space Mono",monospace;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.shelf-head .rule{flex:1;height:1px;background:var(--line)}
+.board{position:relative;padding:0;--cap-h:38px}
+.rail{display:flex;align-items:flex-end;gap:2px;overflow-x:auto;overflow-y:hidden;padding:8px 10px 0;scrollbar-width:thin}
+.rail::after{content:"";position:absolute;left:0;right:0;bottom:var(--cap-h);height:14px;
+  background:linear-gradient(180deg,#FFFFFF33 0 1px,var(--wood) 1px 7px,var(--wood-2) 7px 100%);
+  border-bottom:2px solid var(--wood-edge);border-radius:0 0 3px 3px;pointer-events:none;
+  box-shadow:0 2px 5px -2px var(--wood-shadow)}
+
+.item{position:relative;flex:0 0 auto;width:74px;display:flex;flex-direction:column;align-items:center;gap:0;
+  padding:4px 2px 0;border-radius:8px 8px 0 0;cursor:pointer;touch-action:manipulation;
+  transition:background .12s,transform .12s}
+.item:hover{background:#7F7F7F14}
+.item.lifted{opacity:.35}
+.item .glass{display:block;filter:drop-shadow(0 3px 4px var(--wood-shadow))}
+.item .cap-name{font-size:9.5px;line-height:1.18;text-align:center;color:var(--ink-2);margin-top:4px;height:22px;overflow:hidden;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+.item .cap-brand{font-family:"Space Mono",monospace;font-size:8px;line-height:12px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:100%;margin-top:16px}
+.pips{position:absolute;top:2px;right:4px;display:flex;gap:2px}
+.pip{width:5px;height:5px;border-radius:50%;background:var(--line-2);box-shadow:0 0 0 1px var(--surface)}
+.badge{position:absolute;top:3px;left:4px;font-family:"Space Mono",monospace;font-size:8px;font-weight:700;
+  padding:1px 4px;border-radius:3px;letter-spacing:.04em}
+.badge.rot{background:var(--accent);color:var(--accent-ink)}
+.badge.low{background:var(--warn-bg);color:var(--warn)}
+.badge.out{background:var(--crit-bg);color:var(--crit)}
+
+/* ---------- counter ---------- */
+.counter{position:sticky;top:64px;display:flex;flex-direction:column;gap:12px;max-height:calc(100vh - 80px);overflow-y:auto;padding-right:2px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-h{display:flex;align-items:center;gap:8px;padding:10px 13px;border-bottom:1px solid var(--line)}
+.card-h h2{margin:0;font-size:13px;font-weight:900;letter-spacing:.01em}
+.card-h .sub{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted);margin-left:auto;font-variant-numeric:tabular-nums}
+.zones{padding:9px;display:flex;flex-direction:column;gap:9px}
+.zone{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.zone-h{display:flex;align-items:center;gap:7px;padding:5px 9px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.zone-h .z{font-family:"Space Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.14em}
+.zone-h .z-note{font-size:10px;color:var(--muted);margin-left:auto}
+.slots{display:flex;flex-direction:column}
+.slot{display:flex;align-items:center;gap:9px;padding:5px 9px;border-top:1px dashed var(--line);min-height:40px;transition:background .12s}
+.slot:first-child{border-top:none}
+.slot.over{background:var(--good-bg);box-shadow:inset 0 0 0 2px var(--good)}
+.slot .step{font-family:"Space Mono",monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);width:74px;flex:0 0 auto}
+.slot .filled{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
+.slot .filled .nm{flex:1;min-width:0;font-size:11.5px;line-height:1.25;overflow:hidden;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.slot .filled .nm i{font-style:normal;display:block;font-family:"Space Mono",monospace;font-size:8.5px;
+  text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.slot .empty{flex:1;font-size:11px;color:var(--muted);font-style:italic;opacity:.7}
+.slot .x{color:var(--muted);font-size:15px;line-height:1;padding:2px 4px;border-radius:4px}
+.slot .x:hover{background:var(--crit-bg);color:var(--crit)}
+.meter{flex:0 0 42px;height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:3px}
+
+.qlist{padding:4px 0 6px}
+.q{display:flex;align-items:center;gap:9px;padding:7px 13px;width:100%;text-align:left;border-top:1px solid var(--line)}
+.q:first-child{border-top:none}
+.q:hover{background:var(--sunk)}
+.q .nm{flex:1;min-width:0;font-size:12px;line-height:1.3}
+.q .nm i{font-style:normal;display:block;font-family:"Space Mono",monospace;font-size:9px;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--muted)}
+.q .why{font-family:"Space Mono",monospace;font-size:9.5px;color:var(--muted);text-align:right;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.q .why b{display:block;font-size:11px;font-weight:700}
+.q .why.warn b{color:var(--warn)} .q .why.crit b{color:var(--crit)} .q .why.good b{color:var(--good)}
+.empty-note{padding:14px 13px;font-size:12px;color:var(--muted);text-align:center}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:#0A0D0B6E;z-index:50;opacity:0;pointer-events:none;transition:opacity .16s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--surface);z-index:51;
+  border-left:1px solid var(--line);box-shadow:-14px 0 40px -18px #00000047;
+  transform:translateX(102%);transition:transform .2s cubic-bezier(.3,.8,.4,1);display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.d-top{display:flex;align-items:flex-start;gap:13px;padding:15px 16px 13px;border-bottom:1px solid var(--line)}
+.d-top .txt{flex:1;min-width:0}
+.d-top h3{margin:0 0 2px;font-size:16px;font-weight:700;line-height:1.25;text-wrap:balance}
+.d-top .br{font-family:"Space Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.d-close{font-size:20px;line-height:1;color:var(--muted);padding:2px 6px;border-radius:5px}
+.d-close:hover{background:var(--sunk);color:var(--ink)}
+.d-body{flex:1;overflow-y:auto;padding:0 16px 24px}
+.sec{padding:14px 0;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:none}
+.sec>h4{margin:0 0 9px;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.13em;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.facts div{background:var(--surface);padding:7px 10px}
+.facts dt{font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0}
+.facts dd{margin:1px 0 0;font-family:"Space Mono",monospace;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.facts dd small{font-size:10px;font-weight:400;color:var(--muted)}
+.facts dd.good{color:var(--good)} .facts dd.warn{color:var(--warn)} .facts dd.crit{color:var(--crit)}
+
+.level{display:flex;align-items:center;gap:12px}
+.level input[type=range]{flex:1;accent-color:var(--accent);height:22px}
+.level .pct{font-family:"Space Mono",monospace;font-size:15px;font-weight:700;width:46px;text-align:right;font-variant-numeric:tabular-nums}
+
+.picker{display:flex;gap:6px;flex-wrap:wrap}
+.dose{border:1px solid var(--line-2);border-radius:9px;padding:6px 5px 5px;width:66px;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;gap:3px;transition:border-color .12s,background .12s}
+.dose:hover{border-color:var(--muted)}
+.dose[aria-pressed="true"]{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 1px var(--accent)}
+.dose .lab{font-size:9.5px;line-height:1.15;text-align:center;color:var(--ink-2)}
+.dose .ml{font-family:"Space Mono",monospace;font-size:8.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dose[aria-pressed="true"] .lab{color:var(--ink);font-weight:700}
+
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;font-size:12px;font-weight:500;background:var(--bg);transition:.12s}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.rowbtns{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.note{font-size:11.5px;color:var(--muted);line-height:1.45;margin:8px 0 0}
+.ai{background:var(--warn-bg);border:1px solid #0000;border-left:3px solid var(--warn);border-radius:6px;padding:8px 10px;font-size:11.5px;line-height:1.45;margin-top:9px}
+.ing{font-size:11px;line-height:1.55;color:var(--ink-2);max-height:120px;overflow-y:auto;background:var(--bg);
+  border:1px solid var(--line);border-radius:7px;padding:8px 10px;word-break:break-word}
+input[type=text],input[type=number],textarea,select{
+  width:100%;background:var(--bg);border:1px solid var(--line-2);border-radius:7px;padding:7px 9px;
+  font:inherit;font-size:13px;color:var(--ink)}
+textarea{resize:vertical;min-height:54px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:9px}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+
+/* ---------- ghost / scanner / toast ---------- */
+.ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-60%) scale(1.12);
+  filter:drop-shadow(0 10px 16px #00000047)}
+.scan-body{padding:14px 16px 18px}
+.cam-wrap{position:relative}
+.cam{width:100%;aspect-ratio:3/4;max-height:52vh;background:#0C0F0D;border-radius:9px;object-fit:cover;display:block;border:1px solid var(--line)}
+.reticle{position:absolute;left:10%;right:10%;top:40%;height:20%;border:2px solid var(--accent);border-radius:6px;
+  box-shadow:0 0 0 2000px #0000004D}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,14px);z-index:70;background:var(--ink);color:var(--bg);
+  padding:9px 16px;border-radius:9px;font-size:13px;font-weight:500;box-shadow:var(--shadow);opacity:0;
+  pointer-events:none;transition:opacity .16s,transform .16s;max-width:88vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1020px){
+  .wrap{grid-template-columns:1fr}
+  .tabs{display:flex}
+  .counter{position:static;max-height:none}
+  body[data-tab="store"] .counter{display:none}
+  body[data-tab="counter"] .aisle{display:none}
+  .tally div:nth-child(n+4){display:none}
+  .search{flex:1 1 140px;order:5}
+}
+@media (max-width:640px){
+  .top-in{padding:9px 12px;gap:9px}
+  .sign h1{font-size:17px} .sign .jp{display:none}
+  .wrap{padding:11px}
+  .tally div{min-width:52px;padding:4px 8px}
+  .tally b{font-size:13px}
+  .drawer{width:100%;top:auto;height:90vh;border-left:none;border-top:1px solid var(--line);border-radius:14px 14px 0 0;
+    transform:translateY(102%)}
+  .drawer.on{transform:none}
+  .facts{grid-template-columns:1fr 1fr}
+}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="sign">
+      <h1>Shelf Life</h1><span class="jp">スキンケア棚卸し</span>
+    </div>
+    <div class="tally" id="tally"></div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-tab="store" aria-selected="true">Store</button>
+      <button role="tab" data-tab="counter" aria-selected="false">Counter</button>
+    </div>
+    <input type="search" class="search" id="q" placeholder="Find a product…" aria-label="Find a product" autocomplete="off">
+    <button class="btn" id="addBtn">+ Add</button>
+    <button class="btn btn-hero" id="scanBtn">Scan</button>
+    <button class="btn" id="menuBtn" aria-label="Data menu" title="Backup and restore">⋯</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="aisle" id="aisle"></div>
+  <aside class="counter">
+    <section class="card">
+      <div class="card-h"><h2>The counter</h2><span class="sub" id="burn"></span></div>
+      <p class="note" style="padding:8px 13px 0;margin:0">Drag a bottle off the shelf into a slot — or open it and pick a slot there.</p>
+      <div class="zones" id="zones"></div>
+    </section>
+    <section class="card">
+      <div class="card-h"><h2>Open next</h2><span class="sub" id="stashSub"></span></div>
+      <div class="qlist" id="openNext"></div>
+    </section>
+    <section class="card">
+      <div class="card-h"><h2>Finish these</h2><span class="sub">low or expiring</span></div>
+      <div class="qlist" id="finishList"></div>
+    </section>
+  </aside>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ============ vocabulary ============ */
+// Doses are what you'd actually dispense, named the way people describe them.
+// The ml behind each is calibrated so a bottle lasts about as long as it really does.
+const DOSES={
+  drop1 :{ml:.05,lab:"1 drop"},
+  rice  :{ml:.07,lab:"rice grain"},
+  drop3 :{ml:.15,lab:"3 drops"},
+  pea   :{ml:.25,lab:"pea"},
+  dots3 :{ml:.35,lab:"3 dots"},
+  dots5 :{ml:.6 ,lab:"5 dots"},
+  pump2 :{ml:.8 ,lab:"2 pumps"},
+  almond:{ml:.9 ,lab:"almond"},
+  coin  :{ml:1.25,lab:"¼ tsp"},
+  splash:{ml:1.5,lab:"a splash"},
+  palm  :{ml:2.5,lab:"palmful"},
+  sheet :{ml:1  ,lab:"1 sheet",unit:1},
+  none  :{ml:0  ,lab:"untracked"}
+};
+const DOSE_ORDER=["drop1","rice","drop3","pea","dots3","dots5","pump2","almond","coin","splash","palm"];
+const SCHED={am:{lab:"AM",per:1},pm:{lab:"PM",per:1},both:{lab:"AM + PM",per:2},
+  w3:{lab:"3× week",per:3/7},w2:{lab:"2× week",per:2/7},w1:{lab:"1× week",per:1/7},none:{lab:"Not in rotation",per:0}};
+const SCHED_ORDER=["am","pm","both","w3","w2","w1"];
+const STEPS={remover:"Remover",cleanser:"Cleanser",exfoliant:"Exfoliant",toner:"Toner",treatment:"Treatment",
+  serum:"Serum",eye:"Eye",moisturizer:"Moisturizer",sunscreen:"Sunscreen",mask:"Mask"};
+const CAT_STEP={Remover:"remover",Cleanser:"cleanser",Exfoliant:"exfoliant",Toner:"toner",Treatment:"treatment",
+  Serum:"serum",Eye:"eye",Moisturizer:"moisturizer",Sunscreen:"sunscreen","Sheet Mask":"mask","Clay Mask":"mask"};
+const ZONES=[
+  {id:"am"  ,lab:"AM"     ,note:"morning"     ,sched:"am"  ,steps:["cleanser","toner","serum","eye","moisturizer","sunscreen"]},
+  {id:"both",lab:"AM + PM",note:"twice daily" ,sched:"both",steps:["cleanser","toner","serum","eye","moisturizer"]},
+  {id:"pm"  ,lab:"PM"     ,note:"evening"     ,sched:"pm"  ,steps:["remover","cleanser","exfoliant","toner","treatment","serum","eye","moisturizer","mask"]}
+];
+const SHELF_ORDER=["Cleanser","Remover","Toner","Treatment","Serum","Eye","Moisturizer","Sunscreen",
+  "Exfoliant","Sheet Mask","Clay Mask","Hair","Makeup","Other"];
+
+/* container silhouettes, viewBox 0 0 100 160; body is the part that holds product */
+const SHAPES={
+  tallbottle:{body:[24,30,52,128,5],parts:[[42,14,16,18,0],[37,2,26,14,3]]},
+  bottle    :{body:[22,46,56,112,6],parts:[[42,30,16,18,0],[36,14,28,18,3]]},
+  dropper   :{body:[28,52,44,106,5],parts:[[44,38,12,16,0],[34,6,32,34,8]]},
+  pump      :{body:[24,44,52,114,6],parts:[[44,28,12,18,0],[46,10,10,20,2],[28,10,26,9,3]]},
+  tube      :{body:[26,30,48,120,6],parts:[[22,147,56,11,2],[36,8,28,24,3]]},
+  jar       :{body:[14,70,72,88,8] ,parts:[[10,44,80,28,5]]},
+  smalljar  :{body:[26,96,48,62,6] ,parts:[[22,76,56,22,4]]},
+  tub       :{body:[12,62,76,96,9] ,parts:[[8,42,84,22,5]]},
+  compact   :{body:[10,104,80,54,10],parts:[[14,95,72,12,5]]},
+  stick     :{body:[38,56,24,102,4],parts:[[34,6,32,52,4]]},
+  spray     :{body:[26,48,48,110,6],parts:[[42,34,16,16,0],[30,14,40,22,4],[16,20,16,8,2]]},
+  pouch     :{body:[14,28,72,130,7],parts:[[12,17,76,12,3]]}
+};
+
+const CAT_DEFAULTS={
+  Cleanser:{container:"tube",dose:"splash",sched:"both",pao:12},
+  Remover:{container:"bottle",dose:"palm",sched:"pm",pao:12},
+  Toner:{container:"tallbottle",dose:"splash",sched:"both",pao:6},
+  Treatment:{container:"bottle",dose:"splash",sched:"both",pao:6},
+  Serum:{container:"dropper",dose:"drop3",sched:"both",pao:6},
+  Eye:{container:"smalljar",dose:"rice",sched:"both",pao:6},
+  Moisturizer:{container:"jar",dose:"dots3",sched:"both",pao:6},
+  Sunscreen:{container:"tube",dose:"coin",sched:"am",pao:12},
+  Exfoliant:{container:"tub",dose:"sheet",sched:"w3",pao:6},
+  "Sheet Mask":{container:"pouch",dose:"sheet",sched:"w3",pao:6},
+  "Clay Mask":{container:"tub",dose:"palm",sched:"w2",pao:12},
+  Hair:{container:"bottle",dose:"pump2",sched:"both",pao:12},
+  Makeup:{container:"stick",dose:"none",sched:"none",pao:12},
+  Other:{container:"bottle",dose:"dots3",sched:"both",pao:12}
+};
+
+/* ============ time ============ */
+const DAY=864e5;
+const today=()=>new Date().toISOString().slice(0,10);
+const parseD=s=>s?new Date(s+"T12:00:00Z").getTime():null;
+function daysSince(s){const t=parseD(s);return t?Math.max(0,(Date.now()-t)/DAY):0;}
+function addMonths(s,m){const d=new Date(parseD(s));d.setUTCMonth(d.getUTCMonth()+m);return d;}
+function fmtDate(d){return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}
+function plural(n,w){return n+" "+w+(Math.abs(n)===1?"":"s");}
+function humanDays(n){
+  if(n==null||!isFinite(n))return "—";
+  if(n<1)return "today";
+  if(n<45)return plural(Math.round(n),"day");
+  if(n<730)return Math.round(n/30.4)+" mo";
+  return (n/365).toFixed(1)+" yr";
+}
+
+/* ============ state ============ */
+let ITEMS=[];
+
+function derive(p){
+  const bySheet=!!p.sheets;
+  const cap=bySheet?p.sheets:(p.volumeMl||0);
+  const dose=DOSES[p.dose]||DOSES.none;
+  const per=(SCHED[p.schedule]||SCHED.none).per;
+  const perUse=bySheet?1:dose.ml;
+  const perDay=(p.slot||p.activeSince)?perUse*per:0;
+  let days=p.activeDays||0;
+  if(p.activeSince)days+=daysSince(p.activeSince);
+  const start=cap*(p.open?p.baseline:1);
+  const used=p.open&&cap?Math.min(perDay*days,start):0;
+  const left=Math.max(start-used,0);
+  const frac=cap?left/cap:(p.open?(p.baseline||1):1);
+  const daysLeft=(perDay>0&&cap)?left/perDay:null;
+  let expiry=null,daysToExp=null;
+  if(p.open&&p.openedAt&&p.paoMonths){
+    expiry=addMonths(p.openedAt,p.paoMonths);
+    daysToExp=(expiry.getTime()-Date.now())/DAY;
+  }
+  const empty=cap?left<=cap*.005:false;
+  const state=empty?"out":frac<.12?"crit":frac<.35?"warn":"good";
+  return {cap,left,frac,perDay,perUse,daysLeft,expiry,daysToExp,bySheet,empty,state,
+          unit:bySheet?"sheets":"ml",inRotation:!!p.slot};
+}
+const catOf=p=>p.category||"Other";
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const byId=id=>ITEMS.find(p=>p.id===id);
+
+/* ============ persistence ============ */
+const STORE_KEY="shelflife.items";
+function boot(){
+  try{const raw=localStorage.getItem(STORE_KEY);if(raw){const d=JSON.parse(raw);if(d&&d.length)ITEMS=d;}}catch(e){}
+  if(!ITEMS.length)ITEMS=JSON.parse(JSON.stringify(SEED.items));
+  renderAll();
+}
+function save(){
+  try{localStorage.setItem(STORE_KEY,JSON.stringify(ITEMS));}
+  catch(e){toast("Couldn't save — this browser is blocking storage.");}
+}
+function mutate(fn){fn();save();renderAll();}
+
+/* ============ drawing ============ */
+let uidN=0;
+function monogram(brand){
+  const w=String(brand||"").trim().split(/\s+/);
+  return (w.length>1?w[0][0]+w[1][0]:String(brand||"?").slice(0,2)).toUpperCase();
+}
+function bottleSVG(p,d,px){
+  const s=SHAPES[p.container]||SHAPES.bottle;
+  const [bx,by,bw,bh,br]=s.body;
+  const uid="g"+(++uidN);
+  const tracked=d.cap>0;
+  const fh=tracked?Math.max(0,Math.min(1,d.frac))*bh:bh;
+  const ly=by+bh-fh;
+  const caps=s.parts.map(a=>`<rect x="${a[0]}" y="${a[1]}" width="${a[2]}" height="${a[3]}" rx="${a[4]||0}" fill="${p.color}"/>`).join("");
+  const labY=by+bh*.40, labH=Math.min(30,bh*.34);
+  const showLabel=bw>=30&&bh>=46;
+  return `<svg class="glass" width="${(px*100/160).toFixed(1)}" height="${px}" viewBox="0 0 100 160" aria-hidden="true">
+<defs><clipPath id="${uid}"><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="${br}"/></clipPath></defs>
+${caps}
+<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="${br}" fill="var(--glass)"/>
+<rect x="${bx}" y="${ly}" width="${bw}" height="${fh}" fill="${p.color}" opacity="${tracked?.82:.3}" clip-path="url(#${uid})"/>
+${tracked&&d.frac>.02&&d.frac<.99?`<rect x="${bx}" y="${ly}" width="${bw}" height="1.6" fill="#FFFFFF" opacity=".5" clip-path="url(#${uid})"/>`:""}
+${showLabel?`<rect x="${bx+3}" y="${labY}" width="${bw-6}" height="${labH}" rx="2" fill="var(--surface)" opacity=".93"/>
+<text x="50" y="${labY+labH/2+3.4}" text-anchor="middle" font-family="Space Mono, monospace" font-size="${Math.min(13,bw*.34)}" font-weight="700" fill="${p.color}">${esc(monogram(p.brand))}</text>`:""}
+<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="${br}" fill="none" stroke="var(--glass-line)" stroke-width="1.4"/>
+</svg>`;
+}
+function doseGlyph(key){
+  const marks={
+    drop1:[[22,15,2.6]],rice:[[22,15,2.2]],drop3:[[16,14,2.4],[22,17,2.4],[28,13,2.4]],
+    pea:[[22,15,4.2]],dots3:[[14,15,3.4],[22,12,3.4],[30,16,3.4]],
+    dots5:[[12,14,3.4],[20,11,3.4],[22,19,3.4],[30,13,3.4],[28,20,3.4]],
+    pump2:[[17,15,4.6],[27,15,4.6]],almond:[[22,15,5.6]],coin:[[22,15,7.4]],
+    splash:[[22,15,8.4]],palm:[[22,15,10.4]],sheet:null,none:null
+  }[key];
+  let inner="";
+  if(key==="sheet")inner=`<rect x="11" y="6" width="22" height="18" rx="2.5" fill="var(--accent)" opacity=".85"/><path d="M15 11h14M15 15h14M15 19h9" stroke="var(--surface)" stroke-width="1.2" stroke-linecap="round" fill="none"/>`;
+  else if(key==="none")inner=`<path d="M14 15h16" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" fill="none"/>`;
+  else if(key==="splash"||key==="palm")inner=marks.map(m=>`<ellipse cx="${m[0]}" cy="${m[1]}" rx="${m[2]}" ry="${m[2]*.72}" fill="var(--accent)" opacity=".85"/>`).join("");
+  else inner=marks.map(m=>`<circle cx="${m[0]}" cy="${m[1]}" r="${m[2]}" fill="var(--accent)" opacity=".85"/>`).join("");
+  return `<svg width="44" height="30" viewBox="0 0 44 30" aria-hidden="true">
+<rect x="2" y="2" width="40" height="26" rx="12" fill="var(--sunk)"/>${inner}</svg>`;
+}
+
+/* ============ render: shelves ============ */
+function shelfHeight(p,d){
+  if(d.bySheet)return 52+30*Math.sqrt(Math.min(p.sheets,80)/80);
+  if(!p.volumeMl)return 62;
+  return 46+46*Math.sqrt(Math.min(p.volumeMl,200)/200);
+}
+function itemHTML(p){
+  const d=derive(p);
+  const px=shelfHeight(p,d);
+  const pips=p.sealed>0?`<div class="pips" title="${plural(p.sealed,"sealed spare")}">${
+    Array.from({length:Math.min(p.sealed,4)},()=>'<i class="pip"></i>').join("")}</div>`:"";
+  let badge="";
+  if(d.empty&&p.open)badge='<span class="badge out">EMPTY</span>';
+  else if(d.inRotation)badge='<span class="badge rot">IN USE</span>';
+  else if(p.open&&d.state==="crit")badge='<span class="badge low">LOW</span>';
+  return `<div class="item" data-id="${p.id}" role="button" tabindex="0"
+    aria-label="${esc(p.brand+" "+p.name)}">
+    ${badge}${pips}${bottleSVG(p,d,px)}
+    <div class="cap-brand">${esc(p.brand)}</div>
+    <div class="cap-name">${esc(p.name)}</div></div>`;
+}
+let QUERY="";
+function renderShelves(){
+  const groups={};
+  const q=QUERY.trim().toLowerCase();
+  const pool=q?ITEMS.filter(p=>(p.brand+" "+p.name+" "+catOf(p)).toLowerCase().includes(q)):ITEMS;
+  pool.forEach(p=>{(groups[catOf(p)]=groups[catOf(p)]||[]).push(p);});
+  if(!pool.length){
+    document.getElementById("aisle").innerHTML=
+      '<section class="card"><p class="empty-note">Nothing matches “'+esc(QUERY)+'”.</p></section>';
+    return;
+  }
+  const cats=Object.keys(groups).sort((a,b)=>{
+    const ia=SHELF_ORDER.indexOf(a),ib=SHELF_ORDER.indexOf(b);
+    return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b);
+  });
+  document.getElementById("aisle").innerHTML=cats.map(c=>{
+    const list=groups[c].slice().sort((a,b)=>{
+      const da=derive(a),db=derive(b);
+      return (db.inRotation-da.inRotation)||(b.open-a.open)||(da.frac-db.frac);
+    });
+    const units=groups[c].reduce((n,p)=>n+p.sealed+(p.open?1:0),0);
+    return `<section class="shelf"><div class="shelf-head">
+      <span class="tag${CAT_STEP[c]?"":" plain"}">${esc(c)}</span>
+      <span class="n">${groups[c].length} products · ${units} units</span>
+      <span class="rule"></span></div>
+      <div class="board"><div class="rail">${list.map(itemHTML).join("")}</div></div></section>`;
+  }).join("");
+}
+
+/* ============ render: counter ============ */
+function miniHTML(p){
+  const d=derive(p);
+  const col=d.state==="good"?"var(--good)":d.state==="warn"?"var(--warn)":"var(--crit)";
+  return `<div class="filled">
+    ${bottleSVG(p,d,30)}
+    <span class="nm">${esc(p.name)}<i>${esc(p.brand)}</i></span>
+    <span class="meter" title="${Math.round(d.frac*100)}% left"><i style="width:${Math.max(3,d.frac*100)}%;background:${col}"></i></span>
+    <button class="x" data-unslot="${p.id}" title="Take off the counter" aria-label="Remove ${esc(p.name)} from routine">×</button></div>`;
+}
+function renderZones(){
+  document.getElementById("zones").innerHTML=ZONES.map(z=>`
+    <div class="zone"><div class="zone-h"><span class="z">${z.lab}</span><span class="z-note">${z.note}</span></div>
+    <div class="slots">${z.steps.map(st=>{
+      const p=ITEMS.find(x=>x.slot===z.id+":"+st);
+      return `<div class="slot" data-slot="${z.id}:${st}">
+        <span class="step">${STEPS[st]}</span>
+        ${p?miniHTML(p):'<span class="empty">empty</span>'}</div>`;
+    }).join("")}</div></div>`).join("");
+  const burn=ITEMS.reduce((s,p)=>{const d=derive(p);return s+(d.bySheet?0:d.perDay);},0);
+  const sealedMl=ITEMS.reduce((s,p)=>s+p.sealed*(p.volumeMl||0),0);
+  const months=burn>0?sealedMl/burn/30.4:null;
+  document.getElementById("burn").textContent=burn>0
+    ?burn.toFixed(1)+" ml/day"+(months?" · "+months.toFixed(0)+" mo backstock":"")
+    :"nothing in rotation";
+}
+function renderQueues(){
+  // Open next: sealed stock, ranked by whether that step is unmanned and how deep the duplicates run.
+  const openCats={};
+  ITEMS.forEach(p=>{if(p.open&&derive(p).frac>.12)openCats[catOf(p)]=true;});
+  const next=ITEMS.filter(p=>p.sealed>0).map(p=>{
+    const d=derive(p);
+    let score=p.sealed, why="spare", cls="";
+    if(p.open&&d.frac<=.12&&!d.empty){score+=4;why="current one is nearly out";cls="warn";}
+    else if(p.open&&d.empty){score+=5;why="current one is empty";cls="crit";}
+    else if(!openCats[catOf(p)]){score+=3;why="nothing open in "+catOf(p).toLowerCase();cls="good";}
+    else if(p.sealed>=3){score+=2;why="deep backstock";}
+    return {p,score,why,cls};
+  }).sort((a,b)=>b.score-a.score||b.p.sealed-a.p.sealed).slice(0,6);
+  document.getElementById("openNext").innerHTML=next.length?next.map(o=>
+    `<button class="q" data-id="${o.p.id}"><span class="nm">${esc(o.p.name)}<i>${esc(o.p.brand)}</i></span>
+     <span class="why ${o.cls}"><b>${o.p.sealed} sealed</b>${esc(o.why)}</span></button>`).join("")
+    :'<p class="empty-note">No sealed backstock left. Genuinely impressive.</p>';
+  const sealedUnits=ITEMS.reduce((n,p)=>n+p.sealed,0);
+  document.getElementById("stashSub").textContent=sealedUnits+" sealed";
+
+  // Finish these: open and low, or running out of shelf life.
+  const fin=ITEMS.filter(p=>p.open).map(p=>{
+    const d=derive(p);
+    if(d.empty)return {p,d,score:100,txt:"empty",cls:"crit"};
+    if(d.daysToExp!=null&&d.daysToExp<90)
+      return {p,d,score:60-d.daysToExp/3,txt:d.daysToExp<0?"past PAO":"PAO in "+humanDays(d.daysToExp),cls:d.daysToExp<30?"crit":"warn"};
+    if(d.frac<.25)return {p,d,score:40-d.frac*100,txt:Math.round(d.frac*100)+"% left",cls:"warn"};
+    return null;
+  }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,6);
+  document.getElementById("finishList").innerHTML=fin.length?fin.map(o=>
+    `<button class="q" data-id="${o.p.id}"><span class="nm">${esc(o.p.name)}<i>${esc(o.p.brand)}</i></span>
+     <span class="why ${o.cls}"><b>${esc(o.txt)}</b>${o.d.daysLeft!=null?"~"+humanDays(o.d.daysLeft)+" left":"not in rotation"}</span></button>`).join("")
+    :'<p class="empty-note">Nothing urgent. Everything open has room to run.</p>';
+}
+function renderTally(){
+  const units=ITEMS.reduce((n,p)=>n+p.sealed+(p.open?1:0),0);
+  const open=ITEMS.filter(p=>p.open&&!derive(p).empty).length;
+  const rot=ITEMS.filter(p=>p.slot).length;
+  const ml=ITEMS.reduce((s,p)=>s+(p.sealed+(p.open?p.baseline:0))*(p.volumeMl||0),0);
+  document.getElementById("tally").innerHTML=
+    `<div><b>${ITEMS.length}</b><span>products</span></div>
+     <div><b>${units}</b><span>units</span></div>
+     <div class="hi"><b>${rot}</b><span>in use</span></div>
+     <div><b>${open}</b><span>opened</span></div>
+     <div><b>${(ml/1000).toFixed(1)}L</b><span>on hand</span></div>`;
+}
+function renderAll(){renderTally();renderShelves();renderZones();renderQueues();if(openId)openDrawer(openId,true);}
+
+/* ============ drawer ============ */
+let openId=null;
+const drawerEl=document.getElementById("drawer"), scrimEl=document.getElementById("scrim");
+function slotOptions(p){
+  const step=CAT_STEP[catOf(p)];
+  if(!step)return [];
+  return ZONES.filter(z=>z.steps.includes(step)).map(z=>({key:z.id+":"+step,lab:z.lab,z}));
+}
+function openDrawer(id,keepScroll){
+  const p=byId(id);if(!p)return;
+  const d=derive(p);const sc=keepScroll?drawerEl.querySelector(".d-body")?.scrollTop||0:0;
+  openId=id;
+  const opts=slotOptions(p);
+  const pct=Math.round(d.frac*100);
+  const lvlFacts=d.cap
+    ?`<div><dt>Left</dt><dd class="${d.state==="out"?"crit":d.state}">${d.left.toFixed(d.bySheet?0:1)}<small> / ${d.cap} ${d.unit}</small></dd></div>
+      <div><dt>Runs out</dt><dd>${d.daysLeft!=null?humanDays(d.daysLeft):"—"}</dd></div>`
+    :`<div><dt>Left</dt><dd>—<small> no size on file</small></dd></div>
+      <div><dt>Runs out</dt><dd>—</dd></div>`;
+  const expFact=d.expiry
+    ?`<div><dt>Use by (PAO)</dt><dd class="${d.daysToExp<0?"crit":d.daysToExp<60?"warn":""}">${fmtDate(d.expiry)}</dd></div>`
+    :`<div><dt>Use by (PAO)</dt><dd><small>${p.open?"set an opened date":p.paoMonths+"M once opened"}</small></dd></div>`;
+  drawerEl.innerHTML=`
+  <div class="d-top">${bottleSVG(p,d,62)}
+    <div class="txt"><div class="br">${esc(p.brand)}</div><h3>${esc(p.name)}</h3>
+      <div class="br">${esc(catOf(p))} · ${p.volumeMl?p.volumeMl+" ml":p.sheets?p.sheets+" sheets":"size unknown"}</div></div>
+    <button class="d-close" id="dClose" aria-label="Close">×</button></div>
+  <div class="d-body">
+
+    <div class="sec"><h4>Stock</h4>
+      <dl class="facts">
+        ${lvlFacts}
+        <div><dt>Sealed spares</dt><dd>${p.sealed}</dd></div>
+        ${expFact}
+      </dl>
+      <div class="rowbtns">
+        ${p.sealed>0?`<button class="btn btn-sm" data-act="openone">Open a sealed one</button>`:""}
+        ${p.open&&!d.empty?`<button class="btn btn-sm" data-act="finish">Mark finished</button>`:""}
+        ${p.open?`<button class="btn btn-sm" data-act="opendate">${p.openedAt?"Opened "+fmtDate(new Date(parseD(p.openedAt))):"Set opened date"}</button>`:""}
+      </div>
+    </div>
+
+    ${p.open&&d.cap?`<div class="sec"><h4>How full is it, really?</h4>
+      <div class="level"><input type="range" min="0" max="100" value="${pct}" id="lvl" aria-label="Level remaining">
+        <span class="pct" id="lvlPct">${pct}%</span></div>
+      <p class="note">Drag to correct it. The estimate below runs forward from wherever you set this.</p></div>`:""}
+
+    <div class="sec"><h4>One use looks like</h4>
+      <div class="picker">${(d.bySheet?["sheet"]:DOSE_ORDER).map(k=>
+        `<button class="dose" data-dose="${k}" aria-pressed="${p.dose===k}">
+          ${doseGlyph(k)}<span class="lab">${DOSES[k].lab}</span>
+          <span class="ml">${d.bySheet?"1 ea":DOSES[k].ml+" ml"}</span></button>`).join("")}</div>
+      <p class="note">${p.category==="Sunscreen"?"¼ tsp is the dose sunscreen is actually tested at — most people use a third of it.":"Pick the picture that matches what you dispense. No measuring."}</p>
+    </div>
+
+    <div class="sec"><h4>How often</h4>
+      <div class="chips">${SCHED_ORDER.map(k=>
+        `<button class="chip" data-sched="${k}" aria-pressed="${p.schedule===k}">${SCHED[k].lab}</button>`).join("")}</div>
+      ${d.perDay>0?`<p class="note mono">${d.perUse} ${d.bySheet?"sheet":"ml"} × ${(SCHED[p.schedule].per).toFixed(2).replace(/\.?0+$/,"")}/day = <b>${d.perDay.toFixed(2)} ${d.unit}/day</b></p>`:""}
+    </div>
+
+    <div class="sec"><h4>On the counter</h4>
+      ${opts.length?`<div class="chips">
+        <button class="chip" data-slot-set="" aria-pressed="${!p.slot}">Off rotation</button>
+        ${opts.map(o=>{
+          const taken=ITEMS.find(x=>x.slot===o.key&&x.id!==p.id);
+          return `<button class="chip" data-slot-set="${o.key}" aria-pressed="${p.slot===o.key}">${o.lab}${taken?" ⤳":""}</button>`;
+        }).join("")}</div>
+        <p class="note">${(()=>{const t=opts.map(o=>ITEMS.find(x=>x.slot===o.key&&x.id!==p.id)).filter(Boolean);
+          return t.length?"Takes the place of "+t.map(x=>esc(x.name)).join(", ")+".":"Depletion starts the day you put it on the counter."})()}</p>`
+        :`<p class="note">${catOf(p)} doesn't sit in the face routine — it's tracked by shelf life instead.</p>`}
+    </div>
+
+    <div class="sec"><h4>Identity</h4>
+      <div class="field"><label for="bcIn">Barcode</label>
+        <input type="text" id="bcIn" value="${esc(p.barcode||"")}" placeholder="scan or type the digits" inputmode="numeric"></div>
+      <p class="note">Bind it once and scanning this bottle opens it straight away.</p>
+      <div class="rowbtns"><button class="btn btn-sm" data-act="lookup">Look it up online</button></div>
+      ${p.lookedUp?`<div class="ai"><b>Filled from Open Beauty Facts</b> on ${esc(p.lookedUp)}. Check it against the bottle — the database is crowd-sourced.</div>`:""}
+      ${p.photo?`<img src="${esc(p.photo)}" alt="" style="margin-top:10px;max-height:150px;border-radius:7px;border:1px solid var(--line)">`:""}
+      ${p.ingredients?`<h4 style="margin-top:12px">Ingredients</h4><div class="ing">${esc(p.ingredients)}</div>`:""}
+    </div>
+
+    <div class="sec"><h4>Details</h4>
+      <div class="two">
+        <div class="field"><label for="brandIn">Brand</label><input type="text" id="brandIn" value="${esc(p.brand)}"></div>
+        <div class="field"><label for="catIn">Category</label><select id="catIn">${
+          SHELF_ORDER.map(c=>`<option value="${c}"${c===catOf(p)?" selected":""}>${c}</option>`).join("")}</select></div>
+      </div>
+      <div class="field"><label for="nameIn">Product</label><input type="text" id="nameIn" value="${esc(p.name)}"></div>
+      <div class="two">
+        <div class="field"><label for="volIn">Size (ml)</label><input type="number" id="volIn" step="0.1" min="0" value="${p.volumeMl||""}"></div>
+        <div class="field"><label for="paoIn">PAO (months)</label><input type="number" id="paoIn" step="1" min="0" value="${p.paoMonths||""}"></div>
+      </div>
+      <div class="field"><label for="noteIn">Notes</label><textarea id="noteIn" placeholder="how it wears, what it pills under, whether to rebuy">${esc(p.notes||"")}</textarea></div>
+    </div>
+  </div>`;
+  drawerEl.classList.add("on");scrimEl.classList.add("on");drawerEl.setAttribute("aria-hidden","false");
+  if(keepScroll)drawerEl.querySelector(".d-body").scrollTop=sc;
+}
+function closeDrawer(){openId=null;try{closeScan();}catch(e){}drawerEl.classList.remove("on");scrimEl.classList.remove("on");drawerEl.setAttribute("aria-hidden","true");}
+
+function setSlot(p,key){
+  if(p.slot===key)return;
+  if(key){
+    ITEMS.forEach(x=>{if(x.slot===key&&x.id!==p.id)stopRotation(x);});
+    if(!p.open){if(p.sealed>0)p.sealed--;p.open=true;p.baseline=1;p.openedAt=p.openedAt||today();}
+    p.slot=key;
+    const z=ZONES.find(z=>z.id===key.split(":")[0]);
+    const step=key.split(":")[1];
+    if(step!=="mask"&&step!=="exfoliant")p.schedule=z.sched;
+    else if(!/^w/.test(p.schedule))p.schedule=step==="mask"?"w2":"w3";
+    if(p.dose==="none")p.dose=p.sheets?"sheet":"dots3";
+    if(!p.activeSince)p.activeSince=today();
+  }else stopRotation(p);
+}
+function stopRotation(p){
+  if(p.activeSince){p.activeDays=(p.activeDays||0)+daysSince(p.activeSince);p.activeSince=null;}
+  p.slot=null;
+}
+function rebaseline(p,frac){
+  p.baseline=Math.max(0,Math.min(1,frac));
+  p.activeDays=0;
+  if(p.slot)p.activeSince=today();
+}
+
+/* ============ events ============ */
+const toastEl=document.getElementById("toast");let toastT;
+function toast(msg){toastEl.textContent=msg;toastEl.classList.add("on");clearTimeout(toastT);
+  toastT=setTimeout(()=>toastEl.classList.remove("on"),2600);}
+
+scrimEl.addEventListener("click",closeDrawer);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeScan();closeDrawer();}});
+
+const qEl=document.getElementById("q");
+qEl.addEventListener("input",()=>{QUERY=qEl.value;renderShelves();
+  if(QUERY&&document.body.dataset.tab!=="store"){document.body.dataset.tab="store";
+    [...document.getElementById("tabs").children].forEach(c=>c.setAttribute("aria-selected",String(c.dataset.tab==="store")));}});
+qEl.addEventListener("keydown",e=>{if(e.key==="Escape"){qEl.value="";QUERY="";renderShelves();}});
+
+document.getElementById("tabs").addEventListener("click",e=>{
+  const b=e.target.closest("[data-tab]");if(!b)return;
+  document.body.dataset.tab=b.dataset.tab;
+  [...e.currentTarget.children].forEach(c=>c.setAttribute("aria-selected",String(c===b)));
+});
+
+document.addEventListener("click",e=>{
+  const q=e.target.closest(".q");if(q){openDrawer(q.dataset.id);return;}
+  const un=e.target.closest("[data-unslot]");
+  if(un){mutate(()=>stopRotation(byId(un.dataset.unslot)));return;}
+  const it=e.target.closest(".item");
+  if(it&&!dragging&&Date.now()-lastDrag>320){openDrawer(it.dataset.id);return;}
+});
+document.getElementById("aisle").addEventListener("keydown",e=>{
+  const it=e.target.closest(".item");
+  if(it&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openDrawer(it.dataset.id);}
+});
+
+drawerEl.addEventListener("click",e=>{
+  const p=byId(openId);if(!p)return;
+  if(e.target.closest("#dClose"))return closeDrawer();
+  const dz=e.target.closest("[data-dose]");
+  if(dz)return mutate(()=>{p.dose=dz.dataset.dose;});
+  const sc=e.target.closest("[data-sched]");
+  if(sc)return mutate(()=>{p.schedule=sc.dataset.sched;});
+  const sl=e.target.closest("[data-slot-set]");
+  if(sl)return mutate(()=>setSlot(p,sl.dataset.slotSet||null));
+  const act=e.target.closest("[data-act]");if(!act)return;
+  const a=act.dataset.act;
+  if(a==="openone")return mutate(()=>{
+    if(p.open&&!derive(p).empty){toast("Finish the open one first.");return;}
+    p.sealed=Math.max(0,p.sealed-1);p.open=true;p.baseline=1;p.activeDays=0;
+    p.openedAt=today();if(p.slot)p.activeSince=today();
+  });
+  if(a==="finish")return mutate(()=>{
+    p.baseline=0;p.activeDays=0;p.activeSince=null;
+    if(p.sealed>0){p.sealed--;p.baseline=1;p.openedAt=today();if(p.slot)p.activeSince=today();
+      toast("Finished — opened your next one.");}
+    else{p.open=false;stopRotation(p);toast("Finished. Nothing left in backstock.");}
+  });
+  if(a==="opendate"){
+    const v=prompt("When did you open it? (YYYY-MM-DD)",p.openedAt||today());
+    if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v))mutate(()=>{p.openedAt=v;});
+    else if(v)toast("Use the format 2026-09-22.");
+    return;
+  }
+  if(a==="lookup")return lookupOnline(p,act);
+});
+drawerEl.addEventListener("input",e=>{
+  const p=byId(openId);if(!p)return;
+  if(e.target.id==="lvl"){
+    drawerEl.querySelector("#lvlPct").textContent=e.target.value+"%";
+    clearTimeout(saveTimer);
+  }
+});
+drawerEl.addEventListener("change",e=>{
+  const p=byId(openId);if(!p)return;
+  const t=e.target;
+  if(t.id==="lvl")return mutate(()=>rebaseline(p,+t.value/100));
+  if(t.id==="brandIn"){p.brand=t.value.trim()||"Unbranded";return mutate(()=>{});}
+  if(t.id==="nameIn"){p.name=t.value.trim()||"Untitled";return mutate(()=>{});}
+  if(t.id==="catIn")return mutate(()=>{
+    p.category=t.value;
+    const d=CAT_DEFAULTS[t.value];
+    if(d){p.container=d.container;if(p.dose==="none"||!p.dose)p.dose=d.dose;
+      if(!p.schedule||p.schedule==="none")p.schedule=d.sched;if(!p.paoMonths)p.paoMonths=d.pao;}
+    if(p.slot&&!ZONES.some(z=>z.id===p.slot.split(":")[0]&&z.steps.includes(CAT_STEP[t.value])))stopRotation(p);
+  });
+  if(t.id==="volIn")return mutate(()=>{p.volumeMl=t.value?+t.value:null;});
+  if(t.id==="paoIn")return mutate(()=>{p.paoMonths=t.value?+t.value:null;});
+  if(t.id==="noteIn"){p.notes=t.value||null;return save();}
+  if(t.id==="bcIn"){
+    const v=t.value.replace(/\D/g,"");
+    const clash=v&&ITEMS.find(x=>x.barcode===v&&x.id!==p.id);
+    if(clash){toast("That barcode is already on "+clash.name+".");t.value=p.barcode||"";return;}
+    p.barcode=v||null;return save();
+  }
+});
+
+/* ---- drag from shelf to a counter slot ---- */
+let dragging=null,ghost=null,startPt=null,pending=null,lastDrag=0;
+const canDrag=()=>window.innerWidth>1020;
+document.getElementById("aisle").addEventListener("pointerdown",e=>{
+  const it=e.target.closest(".item");if(!it||e.button||!canDrag())return;
+  pending={id:it.dataset.id,el:it};startPt={x:e.clientX,y:e.clientY};
+});
+window.addEventListener("pointermove",e=>{
+  if(pending&&!dragging){
+    if(Math.hypot(e.clientX-startPt.x,e.clientY-startPt.y)<9)return;
+    const p=byId(pending.id);
+    if(!CAT_STEP[catOf(p)]){pending=null;return;}
+    dragging=p;pending.el.classList.add("lifted");
+    ghost=document.createElement("div");ghost.className="ghost";
+    ghost.innerHTML=bottleSVG(p,derive(p),74);
+    document.body.appendChild(ghost);
+    document.body.style.userSelect="none";
+  }
+  if(!dragging)return;
+  e.preventDefault();
+  ghost.style.left=e.clientX+"px";ghost.style.top=e.clientY+"px";
+  const step=CAT_STEP[catOf(dragging)];
+  document.querySelectorAll(".slot.over").forEach(s=>s.classList.remove("over"));
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  const slot=el&&el.closest(".slot");
+  if(slot&&slot.dataset.slot.split(":")[1]===step)slot.classList.add("over");
+},{passive:false});
+window.addEventListener("pointerup",e=>{
+  if(!dragging){pending=null;return;}
+  const target=document.querySelector(".slot.over");
+  const p=dragging;
+  ghost.remove();document.body.style.userSelect="";
+  document.querySelectorAll(".slot.over").forEach(s=>s.classList.remove("over"));
+  dragging=null;pending=null;lastDrag=Date.now();
+  if(target){mutate(()=>setSlot(p,target.dataset.slot));toast(p.name+" → "+target.dataset.slot.split(":")[0].toUpperCase());}
+  else renderAll();
+});
+
+/* ---- Open Beauty Facts: free, crowd-sourced, CORS-open. Thin on JP/KR SKUs. ---- */
+const OBF="https://world.openbeautyfacts.org/api/v2/product/";
+async function fetchBarcode(code){
+  const r=await fetch(OBF+encodeURIComponent(code)+".json?fields=product_name,product_name_en,brands,quantity,periods_after_opening,ingredients_text,image_front_small_url",
+    {headers:{Accept:"application/json"}});
+  if(r.status===404)return null;            // OBF answers 404 for a code it doesn't hold
+  if(!r.ok)throw new Error("http "+r.status);
+  const d=await r.json();
+  if(!d||d.status!==1||!d.product)return null;
+  const p=d.product;
+  const q=String(p.quantity||"");
+  const mlM=q.match(/([\d.,]+)\s*m?l\b/i);
+  const pao=String(p.periods_after_opening||"").match(/(\d+)/);
+  return {
+    name:(p.product_name_en||p.product_name||"").trim()||null,
+    brand:(p.brands||"").split(",")[0].trim()||null,
+    volumeMl:mlM?parseFloat(mlM[1].replace(",","."))*(/\bl\b/i.test(q)&&!/ml/i.test(q)?1000:1):null,
+    paoMonths:pao?+pao[1]:null,
+    ingredients:(p.ingredients_text||"").trim()||null,
+    photo:p.image_front_small_url||null
+  };
+}
+async function lookupOnline(p,btn){
+  if(!p.barcode){toast("Add the barcode first, then look it up.");return;}
+  const old=btn.textContent;btn.textContent="Looking…";btn.disabled=true;
+  try{
+    const r=await fetchBarcode(p.barcode);
+    if(!r){toast("Not in Open Beauty Facts — most JP and KR products aren't.");return;}
+    mutate(()=>{
+      if(r.volumeMl&&!p.volumeMl)p.volumeMl=r.volumeMl;
+      if(r.paoMonths)p.paoMonths=r.paoMonths;
+      if(r.ingredients)p.ingredients=r.ingredients;
+      if(r.photo)p.photo=r.photo;
+      p.lookedUp=today();
+    });
+    toast("Filled in from Open Beauty Facts.");
+  }catch(e){toast("Couldn't reach the database — check your connection.");}
+  finally{btn.textContent=old;btn.disabled=false;}
+}
+
+const PALETTE=["#C8A02E","#1B6FB8","#E64A7E","#6B4C8C","#4C8C3F","#D95C8A","#3FA9A0","#E07B39","#2C4A5E","#7FBF3F"];
+function newProduct(seed){
+  seed=seed||{};
+  const d=CAT_DEFAULTS.Other;
+  return {id:"n"+Date.now().toString(36)+Math.floor(Math.random()*999).toString(36),
+    brand:seed.brand||"New brand",name:seed.name||"New product",category:"Other",
+    container:d.container,volumeMl:seed.volumeMl||null,sheets:null,
+    color:PALETTE[Math.floor(Math.random()*PALETTE.length)],
+    sealed:1,open:false,baseline:1,openedAt:null,dose:d.dose,schedule:d.sched,
+    paoMonths:seed.paoMonths||d.pao,activeSince:null,activeDays:0,slot:null,
+    barcode:null,ingredients:seed.ingredients||null,photo:seed.photo||null,
+    lookedUp:seed.brand?today():null,notes:null};
+}
+document.getElementById("addBtn").addEventListener("click",()=>{
+  const p=newProduct();ITEMS.unshift(p);save();renderAll();openDrawer(p.id);
+  setTimeout(()=>{const b=drawerEl.querySelector("#brandIn");if(b){b.focus();b.select();}},60);
+});
+document.getElementById("scanBtn").addEventListener("click",openScan);
+
+/* ---- backup: localStorage is the only copy, so make it easy to get out ---- */
+document.getElementById("menuBtn").addEventListener("click",()=>{
+  scanShell(`<p class="note" style="margin:0 0 12px">Your inventory lives in this browser only.
+    Export it before clearing site data or switching phones.</p>
+    <div class="rowbtns"><button class="btn" id="expBtn">Export JSON</button>
+    <button class="btn" id="impBtn">Import JSON</button></div>
+    <input type="file" id="impFile" accept="application/json" hidden>
+    <p class="note" style="margin-top:14px">${ITEMS.length} products · last saved to this device.</p>`);
+  drawerEl.querySelector("h3").textContent="Backup";
+  document.getElementById("expBtn").onclick=()=>{
+    const blob=new Blob([JSON.stringify({items:ITEMS,schema:1,exportedAt:new Date().toISOString()},null,1)],
+      {type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download="shelf-life-"+today()+".json";a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  };
+  const f=document.getElementById("impFile");
+  document.getElementById("impBtn").onclick=()=>f.click();
+  f.onchange=async()=>{
+    const file=f.files&&f.files[0];if(!file)return;
+    try{
+      const d=JSON.parse(await file.text());
+      const items=Array.isArray(d)?d:d.items;
+      if(!Array.isArray(items)||!items.length)throw new Error("empty");
+      if(!confirm("Replace all "+ITEMS.length+" products with "+items.length+" from this file?"))return;
+      ITEMS=items;save();renderAll();closeDrawer();toast("Imported "+items.length+" products.");
+    }catch(e){toast("That file isn't a Shelf Life export.");}
+  };
+});
+
+
+/* ============ scanner ============ */
+let scanState=null;
+function closeScan(){
+  if(!scanState)return;
+  try{scanState.reader&&scanState.reader.reset();}catch(e){}
+  try{scanState.stream&&scanState.stream.getTracks().forEach(t=>t.stop());}catch(e){}
+  scanState.stop=true;scanState=null;
+}
+function scanShell(inner){
+  closeScan();
+  drawerEl.innerHTML=`<div class="d-top"><div class="txt"><div class="br">Shelf Life</div>
+    <h3>Scan a bottle</h3></div><button class="d-close" id="sClose" aria-label="Close">×</button></div>
+    <div class="d-body"><div class="scan-body">${inner}</div></div>`;
+  drawerEl.classList.add("on");scrimEl.classList.add("on");drawerEl.setAttribute("aria-hidden","false");
+  drawerEl.querySelector("#sClose").onclick=()=>{closeScan();closeDrawer();};
+}
+const manualForm=msg=>`
+  ${msg?`<p class="note" style="margin:0 0 10px">${esc(msg)}</p>`:""}
+  <div class="field"><label for="mIn">Barcode digits</label>
+    <input type="text" id="mIn" inputmode="numeric" placeholder="4901301280367" autocomplete="off"></div>
+  <button class="btn btn-hero" id="mGo">Look it up</button>`;
+
+async function openScan(){
+  openId=null;
+  scanShell(`<div class="cam-wrap"><video class="cam" id="cam" playsinline muted></video><div class="reticle"></div></div>
+    <p class="note" id="scanMsg">Starting the camera…</p><div id="manualSlot"></div>`);
+  const msg=document.getElementById("scanMsg"), video=document.getElementById("cam");
+  scanState={stop:false,stream:null,reader:null};
+  let stream;
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280}}});
+  }catch(err){
+    scanShell(manualForm(cameraHelp(err)));wireManual();return;
+  }
+  if(!scanState){stream.getTracks().forEach(t=>t.stop());return;}
+  scanState.stream=stream;video.srcObject=stream;
+  try{await video.play();}catch(e){}
+  msg.textContent="Hold the barcode inside the box.";
+  document.getElementById("manualSlot").innerHTML=
+    `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">${manualForm("Not catching it?")}</div>`;
+  wireManual();
+
+  if("BarcodeDetector" in window){
+    try{
+      let fmts=["ean_13","ean_8","upc_a","upc_e","code_128"];
+      try{const sup=await window.BarcodeDetector.getSupportedFormats();
+        if(sup&&sup.length)fmts=fmts.filter(f=>sup.includes(f));}catch(e){}
+      if(!fmts.length)throw new Error("no formats");
+      const det=new window.BarcodeDetector({formats:fmts});
+      const tick=async()=>{
+        if(!scanState||scanState.stop)return;
+        try{const hits=await det.detect(video);
+          if(hits&&hits.length&&hits[0].rawValue)return onCode(hits[0].rawValue);}catch(e){}
+        requestAnimationFrame(tick);
+      };
+      tick();return;
+    }catch(e){}
+  }
+  msg.textContent="Loading the decoder…";
+  try{
+    await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
+    const reader=new window.ZXing.BrowserMultiFormatReader();
+    scanState.reader=reader;
+    reader.decodeFromVideoElement(video,res=>{if(res&&scanState&&!scanState.stop)onCode(res.getText());});
+    msg.textContent="Hold the barcode inside the box.";
+  }catch(e){msg.textContent="The decoder couldn't load. Type the digits below instead.";}
+}
+function cameraHelp(err){
+  const name=err&&err.name||"";
+  if(name==="NotAllowedError")return "Camera access was refused. Tap the padlock in Chrome's address bar → Permissions → Camera → Allow, then reload.";
+  if(name==="NotFoundError"||name==="OverconstrainedError")return "No camera found on this device.";
+  if(name==="NotReadableError")return "Another app is using the camera. Close it and try again.";
+  if(!window.isSecureContext)return "The camera needs HTTPS. Open this page over https:// (GitHub Pages does this for you).";
+  return "The camera didn't start. Type the digits under the barcode instead.";
+}
+function wireManual(){
+  const go=document.getElementById("mGo"), inp=document.getElementById("mIn");
+  if(!go)return;
+  const fire=()=>{const v=(inp.value||"").replace(/\D/g,"");
+    if(v.length>=6)onCode(v);else toast("That's too short for a barcode.");};
+  go.onclick=fire;
+  inp.onkeydown=e=>{if(e.key==="Enter")fire();};
+}
+function loadScript(src){
+  return new Promise((res,rej)=>{const t=document.createElement("script");
+    t.src=src;t.onload=res;t.onerror=()=>rej(new Error("blocked"));document.head.appendChild(t);});
+}
+async function onCode(code){
+  code=String(code).replace(/\D/g,"");if(!code)return;
+  closeScan();
+  if(navigator.vibrate)try{navigator.vibrate(40);}catch(e){}
+  const hit=ITEMS.find(p=>p.barcode===code);
+  if(hit){toast("Found it.");openDrawer(hit.id);return;}
+  scanShell(`<p class="note" style="margin:0 0 10px">Barcode <b class="mono">${esc(code)}</b> is new. Checking Open Beauty Facts…</p>`);
+  let found=null;
+  try{found=await fetchBarcode(code);}catch(e){}
+  bindPrompt(code,found);
+}
+function bindPrompt(code,found){
+  const unbound=ITEMS.filter(p=>!p.barcode);
+  scanShell(`
+    ${found?`<div class="ai" style="margin:0 0 12px"><b>${esc([found.brand,found.name].filter(Boolean).join(" — ")||"Found a record")}</b>
+      ${found.volumeMl?" · "+found.volumeMl+" ml":""}${found.paoMonths?" · "+found.paoMonths+"M PAO":""}
+      <div style="margin-top:6px"><button class="btn btn-sm" id="addFound">Add as a new product</button></div></div>`
+     :`<p class="note" style="margin:0 0 10px">Barcode <b class="mono">${esc(code)}</b> isn't in Open Beauty Facts —
+        most Japanese and Korean drugstore SKUs aren't. Bind it to something you already have, or add it by hand.</p>`}
+    <div class="field"><label for="bindSearch">Bind it to a product you own</label>
+      <input type="text" id="bindSearch" placeholder="start typing a brand or name" autocomplete="off"></div>
+    <div id="bindResults" class="qlist" style="border:1px solid var(--line);border-radius:8px;max-height:260px;overflow:auto"></div>
+    <div class="rowbtns"><button class="btn btn-sm" id="addBlank">Add as a new product</button></div>`);
+  const inp=document.getElementById("bindSearch"), out=document.getElementById("bindResults");
+  const draw=q=>{
+    const t=q.trim().toLowerCase();
+    const list=(t?unbound.filter(p=>(p.brand+" "+p.name).toLowerCase().includes(t)):unbound).slice(0,40);
+    out.innerHTML=list.length?list.map(p=>
+      `<button class="q" data-bind="${p.id}"><span class="nm">${esc(p.name)}<i>${esc(p.brand)}</i></span>
+       <span class="why">${esc(catOf(p))}</span></button>`).join("")
+      :'<p class="empty-note">Nothing matches.</p>';
+  };
+  draw("");inp.oninput=()=>draw(inp.value);
+  out.onclick=e=>{
+    const b=e.target.closest("[data-bind]");if(!b)return;
+    const p=byId(b.dataset.bind);
+    mutate(()=>{
+      p.barcode=code;
+      if(found){
+        if(found.volumeMl&&!p.volumeMl)p.volumeMl=found.volumeMl;
+        if(found.paoMonths)p.paoMonths=found.paoMonths;
+        if(found.ingredients)p.ingredients=found.ingredients;
+        if(found.photo)p.photo=found.photo;
+        p.lookedUp=today();
+      }
+    });
+    closeDrawer();toast("Bound to "+p.name+".");openDrawer(p.id);
+  };
+  const mk=()=>{const p=newProduct(found||{});p.barcode=code;
+    ITEMS.unshift(p);save();renderAll();closeDrawer();openDrawer(p.id);
+    setTimeout(()=>{const b=drawerEl.querySelector("#brandIn");if(b){b.focus();b.select();}},60);};
+  const af=document.getElementById("addFound"); if(af)af.onclick=mk;
+  document.getElementById("addBlank").onclick=mk;
+}
+
+/* ============ go ============ */
+document.body.dataset.tab="store";
+boot();
+</script>
+
+<script>
+if("serviceWorker" in navigator)
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
