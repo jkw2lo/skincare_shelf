@@ -74,7 +74,7 @@ button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:p
 .btn-wide{width:100%}
 
 /* ===== app shell ===== */
-#app{display:flex;flex-direction:column;height:100dvh;height:100vh}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
 .top{flex:0 0 auto;background:var(--surface);border-bottom:1px solid var(--line);
   padding:calc(env(safe-area-inset-top) + 8px) 12px 0}
 .top-row{display:flex;align-items:center;gap:10px}
@@ -101,38 +101,44 @@ button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:p
 .pane.on{display:flex}
 
 /* ===== home: shelves above, trays below ===== */
-#shelfScroll{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 10px 14px}
-.acc{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:6px;overflow:hidden}
-.acc-h{display:flex;align-items:center;gap:9px;width:100%;padding:11px 12px;text-align:left}
-.acc-h .caret{color:var(--muted);font-size:11px;width:10px;flex:0 0 auto;transition:transform .16s}
-.acc[open] .acc-h .caret,.acc.open .acc-h .caret{transform:rotate(90deg)}
-.acc-h .nm{font-weight:700;font-size:13.5px;flex:1;min-width:0}
-.acc-h .ct{font-family:"Space Mono",monospace;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-.acc-h .inuse{font-family:"Space Mono",monospace;font-size:9px;font-weight:700;background:var(--accent);
-  color:var(--accent-ink);padding:2px 6px;border-radius:20px}
-.acc-body{display:none;border-top:1px solid var(--line);background:var(--bg)}
-.acc.open .acc-body{display:block}
-.rail{display:flex;align-items:flex-end;gap:6px;overflow-x:auto;overflow-y:hidden;
-  padding:12px 10px 0;scrollbar-width:thin;position:relative}
-.rail::after{content:"";position:absolute;left:0;right:0;bottom:var(--cap-h);height:11px;
-  background:linear-gradient(180deg,#FFFFFF2E 0 1px,var(--wood) 1px 6px,var(--wood-2) 6px 100%);
-  border-bottom:2px solid var(--wood-edge);pointer-events:none}
-.shelfbox{position:relative;--cap-h:46px;padding-bottom:6px}
+/* rolodex of categories; one shelf below it gets all the room */
+.rolodex{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  padding:9px 10px;border-bottom:1px solid var(--line);background:var(--surface);scroll-snap-type:x proximity}
+.rolodex::-webkit-scrollbar{display:none}
+.rcat{flex:0 0 auto;scroll-snap-align:center;border:1px solid var(--line-2);background:var(--bg);
+  border-radius:20px;padding:6px 13px;display:flex;align-items:center;gap:7px;transition:.12s;white-space:nowrap}
+.rcat .rn{font-size:12.5px;font-weight:700}
+.rcat .rc{font-family:"Space Mono",monospace;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rcat .rdot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+.rcat[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.rcat[aria-pressed="true"] .rc{color:var(--bg);opacity:.72}
 
-.item{position:relative;flex:0 0 auto;width:86px;display:flex;flex-direction:column;align-items:center;
-  padding:4px 3px 0;border-radius:9px 9px 0 0;cursor:grab;touch-action:pan-x;
-  transition:background .12s,transform .1s}
+#stage{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 10px 16px}
+.stage-h{display:flex;align-items:baseline;gap:9px;padding:0 2px 9px}
+.stage-h h2{margin:0;font-size:15px;font-weight:900}
+.stage-h .sc{font-family:"Space Mono",monospace;font-size:10.5px;color:var(--muted)}
+.shelfgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));column-gap:0;row-gap:10px;
+  background-image:repeating-linear-gradient(180deg,
+    transparent 0 104px, #FFFFFF2E 104px 105px, var(--wood) 105px 109px,
+    var(--wood-2) 109px 114px, var(--wood-edge) 114px 116px, transparent 116px 160px)}
+
+.item{position:relative;height:150px;display:flex;flex-direction:column;align-items:center;
+  cursor:grab;touch-action:pan-y;transition:transform .1s}
 .item:active{cursor:grabbing}
-.item.lifted{opacity:.3}
+.item.lifted{opacity:.28}
+.item.armed{transform:scale(1.07)}
+.item .bottlebox{flex:1 1 auto;min-height:0;width:100%;display:flex;align-items:flex-end;justify-content:center;padding:0 3px}
 .item .glass{display:block;filter:drop-shadow(0 3px 4px var(--wood-shadow))}
-.item .cap{margin-top:14px;height:32px;display:flex;flex-direction:column;justify-content:flex-start;gap:1px;width:100%}
+.item .board{flex:0 0 auto;width:100%;height:12px}
+.item .cap{flex:0 0 auto;height:36px;padding:4px 2px 0;display:flex;flex-direction:column;gap:1px;width:100%}
 .item .cap-brand{font-family:"Space Mono",monospace;font-size:7.5px;line-height:9px;letter-spacing:.05em;
   text-transform:uppercase;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .item .cap-name{font-size:9.5px;line-height:1.16;text-align:center;color:var(--ink-2);word-break:break-word;hyphens:auto}
-.qty{position:absolute;top:2px;right:3px;font-family:"Space Mono",monospace;font-size:9px;font-weight:700;
+.cq{font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.qty{position:absolute;top:0;right:2px;z-index:2;font-family:"Space Mono",monospace;font-size:9px;font-weight:700;
   min-width:17px;height:16px;padding:0 4px;border-radius:9px;background:var(--sunk);color:var(--ink-2);
   border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-.flag{position:absolute;top:2px;left:3px;font-family:"Space Mono",monospace;font-size:8px;font-weight:700;
+.flag{position:absolute;bottom:50px;left:3px;z-index:2;font-family:"Space Mono",monospace;font-size:8px;font-weight:700;
   padding:1px 5px;border-radius:4px;letter-spacing:.03em}
 .flag.low{background:var(--warn-bg);color:var(--warn)}
 .flag.out{background:var(--crit-bg);color:var(--crit)}
@@ -279,6 +285,10 @@ textarea{resize:vertical;min-height:54px}
 body.tray-mode .fab{transform:translateY(130%)}
 .cam-wrap{position:relative}
 .cam{width:100%;aspect-ratio:3/4;max-height:56vh;background:#0C0F0D;border-radius:10px;object-fit:cover;display:block}
+.torch{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;
+  background:#000000A8;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;opacity:.62}
+.diag{margin-top:8px;padding:7px 9px;background:var(--sunk);border:1px solid var(--line);border-radius:7px;
+  font-size:10px;line-height:1.5;color:var(--muted);word-break:break-word}
 .reticle{position:absolute;left:10%;right:10%;top:40%;height:20%;border:2px solid var(--accent);border-radius:6px;
   box-shadow:0 0 0 2000px #00000052}
 
@@ -321,7 +331,8 @@ body.tray-mode .fab{transform:translateY(130%)}
   </header>
 
   <section class="pane on" id="paneHome">
-    <div id="shelfScroll"></div>
+    <div class="rolodex" id="rolodex" role="tablist" aria-label="Category"></div>
+    <div id="stage"></div>
     <div class="trays" id="trays"></div>
   </section>
 
@@ -512,20 +523,21 @@ function doseGlyph(key){
 
 /* ===== home: accordion shelves ===== */
 function bottleH(p,d){
-  if(d.bySheet)return 50+26*Math.sqrt(Math.min(p.sheets,80)/80);
-  if(!p.volumeMl)return 58;
-  return 44+42*Math.sqrt(Math.min(p.volumeMl,200)/200);
+  if(d.bySheet)return 52+22*Math.sqrt(Math.min(p.sheets,80)/80);
+  if(!p.volumeMl)return 60;
+  return 46+38*Math.sqrt(Math.min(p.volumeMl,200)/200);
 }
 function itemHTML(p){
   const d=derive(p);
   const units=p.sealed+(p.open?1:0);
-  const qty=units>1?`<span class="qty">×${units}</span>`:"";
   let flag="";
   if(d.empty&&p.open)flag='<span class="flag out">EMPTY</span>';
   else if(p.open&&d.state==="crit")flag='<span class="flag low">LOW</span>';
   return `<div class="item" data-id="${p.id}" role="button" tabindex="0" aria-label="${esc(p.brand+" "+p.name)}">
-    ${flag}${qty}${bottleSVG(p,d,bottleH(p,d))}
-    <span class="cap"><span class="cap-brand">${esc(p.brand)}</span>
+    ${flag}
+    <span class="bottlebox">${bottleSVG(p,d,bottleH(p,d))}</span>
+    <span class="board"></span>
+    <span class="cap"><span class="cap-brand">${esc(p.brand)}${units>1?` <b class="cq">×${units}</b>`:""}</span>
     <span class="cap-name">${esc(p.name)}</span></span></div>`;
 }
 function groupItems(){
@@ -541,27 +553,31 @@ function groupItems(){
 }
 function renderShelves(){
   const {g,cats,total}=groupItems();
-  const box=document.getElementById("shelfScroll");
-  if(!total){box.innerHTML=`<p class="empty-note">Nothing matches “${esc(QUERY)}”.</p>`;return;}
-  if(QUERY&&cats.length&&!cats.includes(openCat))openCat=cats[0];
-  box.innerHTML=cats.map(c=>{
-    const list=g[c].slice().sort((a,b)=>{
-      const da=derive(a),db=derive(b);
-      return (db.using-da.using)||(b.open-a.open)||(da.frac-db.frac);
-    });
-    const units=g[c].reduce((n,p)=>n+p.sealed+(p.open?1:0),0);
+  const rol=document.getElementById("rolodex"), stage=document.getElementById("stage");
+  if(!total){
+    rol.innerHTML="";
+    stage.innerHTML=`<p class="empty-note">Nothing matches “${esc(QUERY)}”.</p>`;
+    return;
+  }
+  if(!cats.includes(openCat))openCat=cats[0];
+  rol.innerHTML=cats.map(c=>{
     const using=g[c].filter(inUse).length;
-    const open=c===openCat;
-    return `<section class="acc${open?" open":""}" data-cat="${esc(c)}">
-      <button class="acc-h" aria-expanded="${open}"><span class="caret">▶</span>
-        <span class="nm">${esc(c)}</span>
-        ${using?`<span class="inuse">${using} in use</span>`:""}
-        <span class="ct">${g[c].length} · ${units} units</span></button>
-      <div class="acc-body"><div class="shelfbox"><div class="rail">${list.map(itemHTML).join("")}</div></div></div>
-    </section>`;
+    return `<button class="rcat" role="tab" data-cat="${esc(c)}" aria-pressed="${c===openCat}" aria-selected="${c===openCat}">
+      ${using?'<span class="rdot"></span>':""}
+      <span class="rn">${esc(c)}</span><span class="rc">${g[c].length}</span></button>`;
   }).join("");
+  const list=g[openCat].slice().sort((a,b)=>{
+    const da=derive(a),db=derive(b);
+    return (db.using-da.using)||(b.open-a.open)||(da.frac-db.frac);
+  });
+  const units=g[openCat].reduce((n,p)=>n+p.sealed+(p.open?1:0),0);
+  const using=g[openCat].filter(inUse).length;
+  stage.innerHTML=`<div class="stage-h"><h2>${esc(openCat)}</h2>
+      <span class="sc">${list.length} products · ${units} units${using?" · "+using+" in use":""}</span></div>
+    <div class="shelfgrid">${list.map(itemHTML).join("")}</div>`;
+  const sel=rol.querySelector('[aria-pressed="true"]');
+  if(sel)sel.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
 }
-
 /* ===== home: AM / PM trays ===== */
 function trayHTML(t){
   const on=ITEMS.filter(p=>(p.trays||[]).includes(t.id))
@@ -855,14 +871,11 @@ const qEl=document.getElementById("q");
 qEl.addEventListener("input",()=>{QUERY=qEl.value;renderAll();});
 qEl.addEventListener("keydown",e=>{if(e.key==="Escape"){qEl.value="";QUERY="";renderAll();}});
 
-// accordion: exactly one shelf open at a time
-document.getElementById("shelfScroll").addEventListener("click",e=>{
-  const h=e.target.closest(".acc-h");if(!h)return;
-  const cat=h.closest(".acc").dataset.cat;
-  openCat=(openCat===cat)?null:cat;
-  renderShelves();
+document.getElementById("rolodex").addEventListener("click",e=>{
+  const b=e.target.closest("[data-cat]");if(!b)return;
+  openCat=b.dataset.cat;renderShelves();
 });
-document.getElementById("shelfScroll").addEventListener("keydown",e=>{
+document.getElementById("stage").addEventListener("keydown",e=>{
   const it=e.target.closest(".item");
   if(it&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openPeek(it.dataset.id);}
 });
@@ -953,25 +966,48 @@ sheetEl.addEventListener("change",e=>{
   }
 });
 
-/* ===== drag a bottle onto a tray. The step works itself out. ===== */
-let dragging=null,ghost=null,startPt=null,pending=null,lastDrag=0;
-document.getElementById("shelfScroll").addEventListener("pointerdown",e=>{
-  const it=e.target.closest(".item");if(!it||e.button)return;
-  pending={id:it.dataset.id,el:it};startPt={x:e.clientX,y:e.clientY};
+/* ===== two ways to put a product on a tray =====
+   Tap  -> quick card with AM / PM buttons.
+   Drag -> press and hold, then drag. A hold is unambiguous on touch, where a
+   vertical swipe would otherwise be the browser scrolling the shelf away. */
+let dragging=null,ghost=null,startPt=null,pending=null,lastDrag=0,holdTimer=null;
+const HOLD_MS=260, MOVE_TOL=11;
+
+function armDrag(){
+  if(!pending)return;
+  const p=byId(pending.id);
+  if(!p||!stepOf(p)){pending=null;return;}
+  dragging=p;
+  pending.el.classList.remove("armed");
+  pending.el.classList.add("lifted");
+  document.body.classList.add("tray-mode");
+  ghost=document.createElement("div");
+  ghost.className="ghost";
+  ghost.innerHTML=bottleSVG(p,derive(p),78);
+  ghost.style.left=startPt.x+"px";ghost.style.top=startPt.y+"px";
+  document.body.appendChild(ghost);
+  if(navigator.vibrate)try{navigator.vibrate(16);}catch(e){}
+}
+function cancelPending(){
+  clearTimeout(holdTimer);holdTimer=null;
+  if(pending)pending.el.classList.remove("armed");
+  pending=null;
+}
+document.getElementById("stage").addEventListener("pointerdown",e=>{
+  const it=e.target.closest(".item");
+  if(!it||e.button)return;
+  pending={id:it.dataset.id,el:it};
+  startPt={x:e.clientX,y:e.clientY};
+  it.classList.add("armed");
+  clearTimeout(holdTimer);
+  // a mouse can drag straight away; touch waits for the hold
+  holdTimer=setTimeout(armDrag, e.pointerType==="mouse"?0:HOLD_MS);
 });
 window.addEventListener("pointermove",e=>{
   if(pending&&!dragging){
-    const dx=e.clientX-startPt.x, dy=e.clientY-startPt.y;
-    // a mostly-vertical drag is a grab; horizontal is the rail scrolling
-    if(Math.abs(dy)<14||Math.abs(dy)<Math.abs(dx))return;
-    const p=byId(pending.id);
-    if(!stepOf(p)){pending=null;return;}
-    dragging=p;pending.el.classList.add("lifted");
-    document.body.classList.add("tray-mode");
-    ghost=document.createElement("div");ghost.className="ghost";
-    ghost.innerHTML=bottleSVG(p,derive(p),78);
-    document.body.appendChild(ghost);
-    if(navigator.vibrate)try{navigator.vibrate(12);}catch(_){}
+    // moved before the hold completed: that was a scroll, not a grab
+    if(Math.hypot(e.clientX-startPt.x,e.clientY-startPt.y)>MOVE_TOL)cancelPending();
+    return;
   }
   if(!dragging)return;
   e.preventDefault();
@@ -981,20 +1017,28 @@ window.addEventListener("pointermove",e=>{
   const tray=el&&el.closest(".tray");
   if(tray&&!(tray.dataset.tray==="pm"&&stepOf(dragging)==="sunscreen"))tray.classList.add("over");
 },{passive:false});
-window.addEventListener("pointerup",()=>{
-  if(!dragging){pending=null;return;}
-  const target=document.querySelector(".tray.over");
+window.addEventListener("pointercancel",()=>{cancelPending();finishDrag(null);});
+window.addEventListener("pointerup",e=>{
+  cancelPending();
+  if(!dragging)return;
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  const tray=el&&el.closest(".tray");
+  finishDrag(tray&&tray.classList.contains("over")?tray:document.querySelector(".tray.over"));
+});
+function finishDrag(target){
+  if(!dragging)return;
   const p=dragging;
-  ghost.remove();document.body.classList.remove("tray-mode");
+  if(ghost){ghost.remove();ghost=null;}
+  document.body.classList.remove("tray-mode");
   document.querySelectorAll(".tray.over").forEach(t=>t.classList.remove("over"));
-  dragging=null;pending=null;lastDrag=Date.now();
+  dragging=null;lastDrag=Date.now();
   if(!target)return renderAll();
   const tray=target.dataset.tray;
   let replaced=null;
   mutate(()=>{replaced=assignToTray(p,tray);});
   if(replaced&&replaced!==true)toast(p.name+" replaced "+replaced.name+" in "+tray.toUpperCase());
   else if(replaced)toast(p.name+" → "+tray.toUpperCase()+" "+STEPS[stepOf(p)].toLowerCase());
-});
+}
 
 /* ===== lookup: the Worker if it's configured, else straight to the open databases ===== */
 function parseJpSize(t){
@@ -1089,43 +1133,133 @@ const manualForm=msg=>`${msg?`<p class="note" style="margin:0 0 10px">${esc(msg)
   <button class="btn btn-hero btn-wide" id="mGo">Look it up</button>`;
 
 async function openScan(){
-  panel("Scan a bottle",`<div class="cam-wrap"><video class="cam" id="cam" playsinline muted></video>
-    <div class="reticle"></div></div><p class="note" id="scanMsg">Starting the camera…</p><div id="manualSlot"></div>`);
-  const msg=document.getElementById("scanMsg"), video=document.getElementById("cam");
-  scanState={stop:false,stream:null,reader:null};
+  panel("Scan a bottle",`<div class="cam-wrap"><video class="cam" id="cam" playsinline muted autoplay></video>
+    <div class="reticle"></div>
+    <button class="torch" id="torchBtn" hidden aria-label="Toggle light">💡</button></div>
+    <p class="note" id="scanMsg">Starting the camera…</p>
+    <div class="diag mono" id="scanDiag"></div>
+    <div id="scanAlt"></div><div id="manualSlot"></div>`);
+  const msg=document.getElementById("scanMsg"), video=document.getElementById("cam"),
+        diag=document.getElementById("scanDiag");
+  scanState={stop:false,stream:null,reader:null,frames:0,err:"",engine:"",hits:0};
+
   let stream;
-  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280}}});}
-  catch(err){panel("Scan a bottle",manualForm(camHelp(err)));wireManual();return;}
-  if(!scanState){stream.getTracks().forEach(t=>t.stop());return;}
-  scanState.stream=stream;video.srcObject=stream;
-  try{await video.play();}catch(e){}
-  msg.textContent="Hold the barcode inside the box.";
-  document.getElementById("manualSlot").innerHTML=
-    `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">${manualForm("Not catching it?")}</div>`;
-  wireManual();
-  if("BarcodeDetector" in window){
-    try{
-      let f=["ean_13","ean_8","upc_a","upc_e","code_128"];
-      try{const sup=await window.BarcodeDetector.getSupportedFormats();
-        if(sup&&sup.length)f=f.filter(x=>sup.includes(x));}catch(e){}
-      if(!f.length)throw new Error("none");
-      const det=new window.BarcodeDetector({formats:f});
-      const tick=async()=>{
-        if(!scanState||scanState.stop)return;
-        try{const h=await det.detect(video);if(h&&h.length&&h[0].rawValue)return onCode(h[0].rawValue);}catch(e){}
-        requestAnimationFrame(tick);
-      };
-      tick();return;
-    }catch(e){}
-  }
-  msg.textContent="Loading the decoder…";
   try{
-    await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
-    const reader=new window.ZXing.BrowserMultiFormatReader();
-    scanState.reader=reader;
-    reader.decodeFromVideoElement(video,res=>{if(res&&scanState&&!scanState.stop)onCode(res.getText());});
+    stream=await navigator.mediaDevices.getUserMedia({video:{
+      facingMode:{ideal:"environment"},
+      width:{ideal:1920},height:{ideal:1080},
+      advanced:[{focusMode:"continuous"}]
+    }});
+  }catch(err){
+    panel("Scan a bottle",manualForm(camHelp(err)));wireManual();return;
+  }
+  if(!scanState){stream.getTracks().forEach(t=>t.stop());return;}
+  scanState.stream=stream;
+  video.srcObject=stream;
+  try{await video.play();}catch(e){}
+  // detection on a video with no frames yet throws every time; wait for real pixels
+  if(video.readyState<2){
+    await new Promise(r=>{
+      const done=()=>{video.removeEventListener("loadeddata",done);r();};
+      video.addEventListener("loadeddata",done);setTimeout(done,3000);
+    });
+  }
+
+  const track=stream.getVideoTracks()[0];
+  const caps=track.getCapabilities?track.getCapabilities():{};
+  if(caps&&caps.torch){
+    const tb=document.getElementById("torchBtn");
+    tb.hidden=false;
+    let on=false;
+    tb.onclick=async()=>{on=!on;try{await track.applyConstraints({advanced:[{torch:on}]});
+      tb.style.opacity=on?1:.62;}catch(e){toast("This camera won't take a light.");}};
+  }
+
+  document.getElementById("manualSlot").innerHTML=
+    `<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">${manualForm("Not catching it? Type the digits.")}</div>`;
+  wireManual();
+
+  const cv=document.createElement("canvas"), ctx=cv.getContext("2d",{willReadFrequently:true});
+  /* The barcode fills a small slice of the frame. Cropping to the box and
+     upscaling gives the decoder far more pixels per bar. */
+  function frame(cropped){
+    const vw=video.videoWidth, vh=video.videoHeight;
+    if(!vw||!vh)return null;
+    let sx=0,sy=0,sw=vw,sh=vh,scale=1;
+    if(cropped){sx=vw*.08;sw=vw*.84;sy=vh*.34;sh=vh*.32;scale=2;}
+    cv.width=Math.min(1600,Math.round(sw*scale));
+    cv.height=Math.round(sh*(cv.width/sw));
+    ctx.drawImage(video,sx,sy,sw,sh,0,0,cv.width,cv.height);
+    return cv;
+  }
+  const tick=(fn)=>async()=>{
+    if(!scanState||scanState.stop)return;
+    scanState.frames++;
+    try{
+      const got=await fn(frame(scanState.frames%2===0));
+      if(got)return onCode(got);
+    }catch(e){scanState.err=(e&&e.name||"error")+": "+(e&&e.message||"");}
+    paintDiag();
+    setTimeout(tick(fn),90);           // ~11 fps is plenty and keeps the phone cool
+  };
+  function paintDiag(){
+    if(!scanState)return;
+    diag.textContent=`${scanState.engine} · ${video.videoWidth}×${video.videoHeight} · `+
+      `${scanState.frames} frames${scanState.err?" · "+scanState.err:""}`;
+    if(scanState.frames===70)offerAlt();
+  }
+  function offerAlt(){
+    const alt=document.getElementById("scanAlt");
+    if(!alt||alt.dataset.done)return;
+    alt.dataset.done="1";
+    alt.innerHTML=`<div class="ai" style="margin-top:10px">Not reading it after a few seconds.
+      Fill the box with the barcode, hold steady about 10–15&nbsp;cm away, and try the light if it's dim.
+      <div class="rowbtns"><button class="btn btn-sm" id="altBtn">Try the other decoder</button></div></div>`;
+    document.getElementById("altBtn").onclick=()=>{scanState.stop=true;setTimeout(()=>{
+      if(!scanState)return;scanState.stop=false;startZXing(true);},60);};
+  }
+
+  async function startNative(){
+    let f=["ean_13","ean_8","upc_a","upc_e","code_128","code_39","itf"];
+    try{const sup=await window.BarcodeDetector.getSupportedFormats();
+      if(sup&&sup.length)f=f.filter(x=>sup.includes(x));}catch(e){}
+    if(!f.length)throw new Error("no formats");
+    const det=new window.BarcodeDetector({formats:f});
+    scanState.engine="BarcodeDetector";
     msg.textContent="Hold the barcode inside the box.";
-  }catch(e){msg.textContent="The decoder couldn't load. Type the digits below instead.";}
+    tick(async(src)=>{
+      if(!src)return null;
+      const hits=await det.detect(src);
+      return hits&&hits.length&&hits[0].rawValue?hits[0].rawValue:null;
+    })();
+  }
+  async function startZXing(force){
+    msg.textContent="Loading the decoder…";
+    try{
+      await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
+      const hints=new Map();
+      const F=window.ZXing.BarcodeFormat;
+      hints.set(window.ZXing.DecodeHintType.POSSIBLE_FORMATS,
+        [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF]);
+      hints.set(window.ZXing.DecodeHintType.TRY_HARDER,true);
+      const reader=new window.ZXing.BrowserMultiFormatReader(hints);
+      scanState.reader=reader;scanState.engine="ZXing";
+      msg.textContent="Hold the barcode inside the box.";
+      reader.decodeFromVideoElement(video,res=>{
+        if(res&&scanState&&!scanState.stop)onCode(res.getText());
+      });
+      const beat=()=>{if(!scanState||scanState.stop)return;scanState.frames++;paintDiag();setTimeout(beat,140);};
+      beat();
+    }catch(e){
+      msg.textContent="The decoder couldn't load. Type the digits below instead.";
+      if(force)toast("Couldn't load the other decoder.");
+    }
+  }
+
+  if("BarcodeDetector" in window){
+    try{await startNative();return;}catch(e){scanState.err="native: "+(e.message||e);}
+  }
+  startZXing(false);
 }
 function camHelp(err){
   const n=err&&err.name||"";
@@ -1163,8 +1297,10 @@ function bindPrompt(code,found){
     ${found?`<div class="ai" style="margin:0 0 12px"><b>${esc([found.brand,found.name].filter(Boolean).join(" — ")||"Found a record")}</b>
       ${found.volumeMl?" · "+found.volumeMl+" ml":""}${found.paoMonths?" · "+found.paoMonths+"M PAO":""}
       <div class="mono" style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">via ${esc(found.source||"database")}</div></div>`
-     :`<p class="note" style="margin:0 0 12px">Barcode <b class="mono">${esc(code)}</b> wasn't found. Bind it to
-        something you already own — that binding sticks, so the next scan opens it straight away.</p>`}
+     :`<div class="ai" style="margin:0 0 12px;border-left-color:var(--good);background:var(--good-bg)">
+        <b>Scanned it — ${esc(code)}</b><div style="margin-top:3px">The camera and decoder worked. No database
+        holds this code, which is normal for Japanese and Korean drugstore products. Bind it below and the
+        next scan of this bottle opens it straight away.</div></div>`}
     <div class="field"><label for="bindSearch">Bind it to a product you own</label>
       <input type="text" id="bindSearch" placeholder="start typing a brand or name" autocomplete="off"></div>
     <div id="bindResults" style="border:1px solid var(--line);border-radius:9px;max-height:46vh;overflow:auto"></div>
