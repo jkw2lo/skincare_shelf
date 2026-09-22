@@ -306,8 +306,8 @@ body.tray-mode .fab{transform:translateY(130%)}
 .src .snote{font-family:"Space Mono",monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .diag{margin-top:8px;padding:7px 9px;background:var(--sunk);border:1px solid var(--line);border-radius:7px;
   font-size:10px;line-height:1.5;color:var(--muted);word-break:break-word}
-.reticle{position:absolute;left:10%;right:10%;top:40%;height:20%;border:2px solid var(--accent);border-radius:6px;
-  box-shadow:0 0 0 2000px #00000052}
+.reticle{position:absolute;left:8%;right:8%;top:38%;height:24%;border:2px dashed var(--accent);border-radius:6px;
+  box-shadow:0 0 0 2000px #00000038}
 
 .ghost{position:fixed;z-index:70;pointer-events:none;transform:translate(-50%,-62%) scale(1.14);
   filter:drop-shadow(0 12px 18px #0000005C)}
@@ -1331,7 +1331,7 @@ const manualForm=msg=>`${msg?`<p class="note" style="margin:0 0 10px">${esc(msg)
 async function decodeImage(file){
   const bmp=await createImageBitmap(file).catch(()=>null);
   if(!bmp)return null;
-  const tries=[1,2,3];   // small barcodes need the extra pixels
+  const tries=[1,2,3];   // whole image, just more pixels per bar
   if("BarcodeDetector" in window){
     try{
       let f=["ean_13","ean_8","upc_a","upc_e"];
@@ -1460,23 +1460,20 @@ async function openScan(){
   wireManual();
 
   const cv=document.createElement("canvas"), ctx=cv.getContext("2d",{willReadFrequently:true});
-  /* The barcode fills a small slice of the frame. Cropping to the box and
-     upscaling gives the decoder far more pixels per bar. */
-  function frame(cropped){
+  /* Always the whole frame. Anything less risks decoding part of a barcode
+     into a plausible wrong number. */
+  function frame(){
     const vw=video.videoWidth, vh=video.videoHeight;
     if(!vw||!vh)return null;
-    let sx=0,sy=0,sw=vw,sh=vh,scale=1;
-    if(cropped){sx=vw*.08;sw=vw*.84;sy=vh*.34;sh=vh*.32;scale=2;}
-    cv.width=Math.min(1600,Math.round(sw*scale));
-    cv.height=Math.round(sh*(cv.width/sw));
-    ctx.drawImage(video,sx,sy,sw,sh,0,0,cv.width,cv.height);
+    cv.width=vw;cv.height=vh;
+    ctx.drawImage(video,0,0,vw,vh);
     return cv;
   }
   const tick=(fn)=>async()=>{
     if(!scanState||scanState.stop)return;
     scanState.frames++;
     try{
-      const got=await fn(frame(scanState.frames%2===0));
+      const got=await fn(frame());
       if(got)return onCode(got);
     }catch(e){scanState.err=(e&&e.name||"error")+": "+(e&&e.message||"");}
     paintDiag();
@@ -1608,7 +1605,11 @@ function bindPrompt(code,found){
         None of the databases below hold this code.</div></div>
       ${sourcesHTML()}
       ${traceHTML()}
-      <div class="field" style="margin-top:12px"><label for="pasteIn">Or paste what another app found</label>
+      <div class="field" style="margin-top:12px"><label for="fixIn">Read these digits — do they match the pack?</label>
+      <input type="text" id="fixIn" class="mono" value="${esc(code)}" inputmode="numeric"></div>
+    <div class="rowbtns" style="margin-top:0"><button class="btn btn-sm" id="fixGo">Use the corrected number</button></div>
+    <p class="note">If a digit is off, fix it here and search again.</p>
+    <div class="field" style="margin-top:14px"><label for="pasteIn">Or paste what another app found</label>
         <input type="text" id="pasteIn" placeholder="Bioré UV Aqua Rich Watery Essence 70g" autocomplete="off"></div>
       <div class="rowbtns" style="margin-top:0"><button class="btn btn-sm" id="pasteGo">Add from that</button></div>
       <p class="note">Brand and size are read out of the text. Quicker than typing the fields.</p>
@@ -1636,6 +1637,14 @@ function bindPrompt(code,found){
   document.getElementById("addNew").onclick=()=>{
     const p=newProduct(found||{});p.barcode=code;
     ITEMS.unshift(p);save();closeSheet();renderAll();openSheet(p.id);
+  };
+  const fx=document.getElementById("fixIn"), fg=document.getElementById("fixGo");
+  if(fg)fg.onclick=()=>{
+    const v=(fx.value||"").replace(/\D/g,"");
+    if(v.length<6)return toast("That's too short for a barcode.");
+    if(v===code)return toast("That's the same number.");
+    if(!checkDigitOK(v)&&!confirm("That doesn't match its check digit. Use it anyway?"))return;
+    readSeen="";readCount=0;onCode(v);
   };
   const pi=document.getElementById("pasteIn"), pg=document.getElementById("pasteGo");
   if(pg){
@@ -1695,6 +1704,8 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
         Japanese products if you'd rather not run a Worker.</p>
       <div class="rowbtns"><button class="btn btn-sm" id="rakSave">Save</button></div>
     </div>
+    <div class="sec"><h4>Build</h4><p class="note mono" style="margin:0">build 2026-09-22 06f3a6d · <span id="swState">checking…</span></p>
+      <div class="rowbtns"><button class="btn btn-sm" id="reloadBtn">Force refresh</button></div></div>
     <div class="sec"><h4>Backup</h4>
       <p class="note" style="margin:0 0 10px">Your inventory lives in this browser only. Export before
         clearing site data or changing phones.</p>
@@ -1733,6 +1744,19 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
     const a=document.createElement("a");a.href=URL.createObjectURL(blob);
     a.download="shelf-life-"+today()+".json";a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  };
+  const sw=document.getElementById("swState");
+  if(sw)sw.textContent=("serviceWorker" in navigator&&navigator.serviceWorker.controller)?"offline cache active":"no cache";
+  const rb=document.getElementById("reloadBtn");
+  if(rb)rb.onclick=async()=>{
+    try{
+      if("serviceWorker" in navigator){
+        const rs=await navigator.serviceWorker.getRegistrations();
+        await Promise.all(rs.map(r=>r.unregister()));
+      }
+      if(window.caches){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}
+    }catch(e){}
+    location.reload(true);
   };
   document.getElementById("photoBtn").onclick=openImport;
   const f=document.getElementById("impFile");

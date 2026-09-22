@@ -1,6 +1,6 @@
 // Cache the shell so the app opens at the shelf with no network.
 // Product lookups always go to the network and are never cached.
-const CACHE = "shelf-life-v1";
+const CACHE = "shelf-life-v2";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
