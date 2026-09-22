@@ -296,6 +296,14 @@ body.tray-mode .fab{transform:translateY(130%)}
 .cam{width:100%;aspect-ratio:3/4;max-height:56vh;background:#0C0F0D;border-radius:10px;object-fit:cover;display:block}
 .torch{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;
   background:#000000A8;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;opacity:.62}
+.srcs{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:8px;overflow:hidden;margin:10px 0 2px}
+.src{display:flex;align-items:center;gap:8px;background:var(--surface);padding:7px 10px;font-size:11.5px}
+.src .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+.src.on .dot{background:var(--good)} .src.off .dot{background:var(--line-2)}
+.src.off .sname{color:var(--muted)}
+.src .sname{flex:1;min-width:0;font-weight:700}
+.src .snote{font-family:"Space Mono",monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .diag{margin-top:8px;padding:7px 9px;background:var(--sunk);border:1px solid var(--line);border-radius:7px;
   font-size:10px;line-height:1.5;color:var(--muted);word-break:break-word}
 .reticle{position:absolute;left:10%;right:10%;top:40%;height:20%;border:2px solid var(--accent);border-radius:6px;
@@ -992,6 +1000,8 @@ document.getElementById("stage").addEventListener("keydown",e=>{
 });
 
 document.addEventListener("click",e=>{
+  const gt=e.target.closest("[data-goto]");
+  if(gt&&gt.dataset.goto==="settings"){closeSheet();setTimeout(()=>document.getElementById("menuBtn").click(),240);return;}
   const off=e.target.closest("[data-off]");
   if(off){const [id,tray]=off.dataset.off.split(":");return mutate(()=>removeFromTray(byId(id),tray));}
   const cell=e.target.closest(".cell,.slotted,.q,.pn");
@@ -1227,6 +1237,27 @@ async function viaRakuten(code){
     paoMonths:null,ingredients:null,
     photo:img?String(img.imageUrl||img).replace(/\?.*$/,""):null,source:"Rakuten"};
 }
+/* Which databases this device will actually query. Open Beauty Facts is
+   always on but holds almost nothing Japanese or Korean, so a setup with
+   nothing else configured will miss nearly every bottle on these shelves. */
+function sources(){
+  return [
+    {name:"Open Beauty Facts", on:true,  note:"thin on JP/KR"},
+    {name:"Rakuten",           on:!!CFG.rakutenId, note:"Japanese products"},
+    {name:"Worker (Naver, Barcode Lookup, UPCitemdb)", on:!!CFG.workerUrl, note:"Korean + international"}
+  ];
+}
+function sourcesHTML(){
+  const list=sources();
+  const off=list.filter(s=>!s.on);
+  return `<div class="srcs">${list.map(s=>
+    `<div class="src ${s.on?"on":"off"}"><span class="dot"></span>
+      <span class="sname">${esc(s.name)}</span><span class="snote">${esc(s.note)}</span></div>`).join("")}
+    </div>${off.length?`<p class="note">${off.length===2
+      ? "Only Open Beauty Facts is switched on, which is why almost nothing is found. Turn on the others in Settings."
+      : "One source is still switched off."}</p>
+      <div class="rowbtns"><button class="btn btn-sm" data-goto="settings">Open settings</button></div>`:""}`;
+}
 async function lookupAny(code){
   for(const fn of [viaWorker,viaOBF,viaRakuten]){
     try{const r=await fn(code);if(r)return r;}catch(e){}
@@ -1275,13 +1306,97 @@ const manualForm=msg=>`${msg?`<p class="note" style="margin:0 0 10px">${esc(msg)
     <input type="text" id="mIn" inputmode="numeric" placeholder="4901301280367" autocomplete="off"></div>
   <button class="btn btn-hero btn-wide" id="mGo">Look it up</button>`;
 
+/* Decode barcodes out of a picture — a screenshot from another app, or a
+   photo of several boxes. Same decoders as the live camera. */
+async function decodeImage(file){
+  const bmp=await createImageBitmap(file).catch(()=>null);
+  if(!bmp)return null;
+  const tries=[1,2,3];   // small barcodes need the extra pixels
+  if("BarcodeDetector" in window){
+    try{
+      let f=["ean_13","ean_8","upc_a","upc_e","code_128","code_39","itf"];
+      try{const sup=await window.BarcodeDetector.getSupportedFormats();
+        if(sup&&sup.length)f=f.filter(x=>sup.includes(x));}catch(e){}
+      const det=new window.BarcodeDetector({formats:f});
+      for(const k of tries){
+        const src=k===1?bmp:upscale(bmp,k);
+        const hits=await det.detect(src);
+        if(hits&&hits.length&&hits[0].rawValue)return hits[0].rawValue;
+      }
+    }catch(e){}
+  }
+  try{
+    await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
+    const hints=new Map(), F=window.ZXing.BarcodeFormat;
+    hints.set(window.ZXing.DecodeHintType.POSSIBLE_FORMATS,
+      [F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF]);
+    hints.set(window.ZXing.DecodeHintType.TRY_HARDER,true);
+    const reader=new window.ZXing.BrowserMultiFormatReader(hints);
+    for(const k of tries){
+      const cv=upscale(bmp,k);
+      try{
+        const res=await reader.decodeFromCanvas(cv);
+        if(res&&res.getText())return res.getText();
+      }catch(e){}
+    }
+  }catch(e){}
+  return null;
+}
+function upscale(bmp,k){
+  const cv=document.createElement("canvas");
+  const w=Math.min(2400,Math.round(bmp.width*k));
+  cv.width=w;cv.height=Math.round(bmp.height*(w/bmp.width));
+  cv.getContext("2d").drawImage(bmp,0,0,cv.width,cv.height);
+  return cv;
+}
+function openImport(){
+  panel("Barcodes from a photo",`
+    <p class="note" style="margin:0 0 12px">Pick screenshots or photos of barcodes — one or many.
+      Each is decoded and handled the same as a live scan.</p>
+    <button class="btn btn-hero btn-wide" id="pickBtn">Choose pictures</button>
+    <input type="file" id="pickFile" accept="image/*" multiple hidden>
+    <div id="pickOut"></div>`);
+  const f=document.getElementById("pickFile"), out=document.getElementById("pickOut");
+  document.getElementById("pickBtn").onclick=()=>f.click();
+  f.onchange=async()=>{
+    const files=[...(f.files||[])];
+    if(!files.length)return;
+    out.innerHTML='<p class="note">Reading '+files.length+'…</p>';
+    const found=[],missed=[];
+    for(const file of files){
+      const code=await decodeImage(file);
+      if(code)found.push({code,name:file.name});else missed.push(file.name);
+    }
+    if(!found.length){
+      out.innerHTML='<div class="ai">Nothing decoded. Crop tighter to the barcode and make sure it is '+
+        'square-on and in focus.</div>';return;
+    }
+    // one hit: straight into the normal flow
+    if(found.length===1&&!missed.length)return onCode(found[0].code);
+    out.innerHTML=`<div class="srcs" style="margin-top:12px">${found.map(h=>{
+      const hit=ITEMS.find(p=>p.barcode===h.code);
+      return `<div class="src on"><span class="dot"></span><span class="sname mono">${esc(h.code)}</span>
+        <span class="snote">${hit?esc(hit.name).slice(0,18):"new"}</span></div>`;}).join("")}</div>
+      ${missed.length?`<p class="note">Couldn't read ${missed.length} of them.</p>`:""}
+      <div class="rowbtns"><button class="btn btn-wide" id="nextCode">Handle these one at a time</button></div>`;
+    let i=0;
+    document.getElementById("nextCode").onclick=()=>{
+      if(i<found.length)onCode(found[i++].code);
+    };
+  };
+}
+
 async function openScan(){
   panel("Scan a bottle",`<div class="cam-wrap"><video class="cam" id="cam" playsinline muted autoplay></video>
     <div class="reticle"></div>
     <button class="torch" id="torchBtn" hidden aria-label="Toggle light">💡</button></div>
     <p class="note" id="scanMsg">Starting the camera…</p>
     <div class="diag mono" id="scanDiag"></div>
-    <div id="scanAlt"></div><div id="manualSlot"></div>`);
+    <div id="scanAlt"></div>
+    <div class="rowbtns"><button class="btn btn-sm" id="fromPhoto">Read from a photo instead</button></div>
+    <div id="manualSlot"></div>`);
+  const fp=document.getElementById("fromPhoto");
+  if(fp)fp.onclick=()=>{closeScan();openImport();};
   const msg=document.getElementById("scanMsg"), video=document.getElementById("cam"),
         diag=document.getElementById("scanDiag");
   scanState={stop:false,stream:null,reader:null,frames:0,err:"",engine:"",hits:0};
@@ -1440,10 +1555,15 @@ function bindPrompt(code,found){
     ${found?`<div class="ai" style="margin:0 0 12px"><b>${esc([found.brand,found.name].filter(Boolean).join(" — ")||"Found a record")}</b>
       ${found.volumeMl?" · "+found.volumeMl+" ml":""}${found.paoMonths?" · "+found.paoMonths+"M PAO":""}
       <div class="mono" style="font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">via ${esc(found.source||"database")}</div></div>`
-     :`<div class="ai" style="margin:0 0 12px;border-left-color:var(--good);background:var(--good-bg)">
-        <b>Scanned it — ${esc(code)}</b><div style="margin-top:3px">The camera and decoder worked. No database
-        holds this code, which is normal for Japanese and Korean drugstore products. Bind it below and the
-        next scan of this bottle opens it straight away.</div></div>`}
+     :`<div class="ai" style="margin:0 0 4px;border-left-color:var(--good);background:var(--good-bg)">
+        <b>Scanned it — ${esc(code)}</b><div style="margin-top:3px">The camera and decoder worked.
+        None of the databases below hold this code.</div></div>
+      ${sourcesHTML()}
+      <div class="field" style="margin-top:12px"><label for="pasteIn">Or paste what another app found</label>
+        <input type="text" id="pasteIn" placeholder="Bioré UV Aqua Rich Watery Essence 70g" autocomplete="off"></div>
+      <div class="rowbtns" style="margin-top:0"><button class="btn btn-sm" id="pasteGo">Add from that</button></div>
+      <p class="note">Brand and size are read out of the text. Quicker than typing the fields.</p>
+      <div style="height:14px"></div>`}
     <div class="field"><label for="bindSearch">Bind it to a product you own</label>
       <input type="text" id="bindSearch" placeholder="start typing a brand or name" autocomplete="off"></div>
     <div id="bindResults" style="border:1px solid var(--line);border-radius:9px;max-height:46vh;overflow:auto"></div>
@@ -1468,9 +1588,30 @@ function bindPrompt(code,found){
     const p=newProduct(found||{});p.barcode=code;
     ITEMS.unshift(p);save();closeSheet();renderAll();openSheet(p.id);
   };
+  const pi=document.getElementById("pasteIn"), pg=document.getElementById("pasteGo");
+  if(pg){
+    const go=()=>{
+      const raw=(pi.value||"").trim();
+      if(raw.length<3)return toast("Paste the product name first.");
+      const p=newProduct(parsePasted(raw));p.barcode=code;
+      ITEMS.unshift(p);save();closeSheet();renderAll();openSheet(p.id);
+    };
+    pg.onclick=go;pi.onkeydown=e=>{if(e.key==="Enter")go();};
+  }
 }
 
 /* ===== add, settings, backup ===== */
+/* A pasted listing line carries the brand first and the size last:
+   "Bioré UV Aqua Rich Watery Essence 70g" */
+function parsePasted(raw){
+  const vol=parseJpSize(raw);
+  let t=raw.replace(/\s*[\d.,]+\s*(ml|mL|ML|ｍｌ|g|ｇ|グラム|ミリ)\s*$/i,"").trim();
+  t=t.replace(/^[\[【(].*?[\]】)]\s*/,"").trim();     // drop 【送料無料】 style prefixes
+  const words=t.split(/\s+/);
+  const brand=words.length>1?words[0]:null;
+  const name=words.length>1?words.slice(1).join(" "):t;
+  return {brand,name:name||t,volumeMl:vol,source:"pasted"};
+}
 function newProduct(seed){
   seed=seed||{};
   const d=CAT_DEFAULTS.Other;
@@ -1491,6 +1632,7 @@ document.getElementById("scanBtn").addEventListener("click",openScan);
 document.getElementById("menuBtn").addEventListener("click",()=>{
   panel("Settings",`
     <div class="sec" style="padding-top:0"><h4>Barcode lookup</h4>
+      ${sourcesHTML().replace(/<div class="rowbtns">[\s\S]*?<\/div>/,"")}
       <div class="field"><label for="wkIn">Cloudflare Worker URL</label>
         <input type="text" id="wkIn" value="${esc(CFG.workerUrl)}" placeholder="https://shelf-life-barcode.<you>.workers.dev" autocomplete="off"></div>
       <p class="note">Most barcode databases refuse browser calls. The Worker makes them server-side and
@@ -1508,7 +1650,8 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
       <p class="note" style="margin:0 0 10px">Your inventory lives in this browser only. Export before
         clearing site data or changing phones.</p>
       <div class="rowbtns"><button class="btn" id="expBtn">Export JSON</button>
-        <button class="btn" id="impBtn">Import JSON</button></div>
+        <button class="btn" id="impBtn">Import JSON</button>
+        <button class="btn" id="photoBtn">Barcodes from a photo</button></div>
       <input type="file" id="impFile" accept="application/json" hidden>
       <p class="note">${ITEMS.length} products · ${ITEMS.reduce((n,p)=>n+p.sealed+(p.open?1:0),0)} units</p>
     </div>`);
@@ -1537,6 +1680,7 @@ document.getElementById("menuBtn").addEventListener("click",()=>{
     a.download="shelf-life-"+today()+".json";a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),4000);
   };
+  document.getElementById("photoBtn").onclick=openImport;
   const f=document.getElementById("impFile");
   document.getElementById("impBtn").onclick=()=>f.click();
   f.onchange=async()=>{
