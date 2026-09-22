@@ -32,20 +32,31 @@ launches full-screen and works offline.
 
 ## The scanner
 
-Chrome on Android decodes barcodes natively via `BarcodeDetector`. Other browsers
-fall back to the ZXing library, loaded from a CDN on first use.
+Chrome on Android decodes barcodes natively via `BarcodeDetector`; other browsers
+fall back to the ZXing library loaded from a CDN.
 
-A scanned code is looked up against [Open Beauty Facts](https://world.openbeautyfacts.org)
-— free, crowd-sourced, no API key. When it has a record you get name, brand, size,
-period-after-opening, full ingredients and a product photo.
+A scanned code is looked up, and if nothing is found you bind it to a product you
+already own. That binding is permanent, so the next scan of that bottle opens it.
 
-**Coverage is thin for Japanese and Korean products.** Measured against this
-collection: Anessa 0 records, Canmake 0, Kao 2, Shiseido Japan 1. The Bioré records
-are the European line. Expect most scans of JP/KR drugstore items to miss, and to
-bind the barcode to an existing product by hand instead — that binding is permanent,
-so the next scan of that bottle opens it instantly.
+**Lookup goes through the Worker in `worker/` when configured** — it reaches the
+databases a browser is not allowed to call. Without it the app still queries Open
+Beauty Facts directly, and Rakuten too if you paste an application ID. See
+[worker/README.md](worker/README.md) for why and how.
 
-You can add missing products to Open Beauty Facts yourself; it's a public database.
+Coverage is honest: Open Beauty Facts holds almost nothing Japanese or Korean
+(Anessa 0 records, Canmake 0, Kao 2). Rakuten covers the Japanese half and Naver
+the Korean half, both free.
+
+## Using it
+
+**Shelf** — categories collapsed, one open at a time. Drag a bottle down into the
+**AM** or **PM** tray; it lands in the right step on its own, and dragging a second
+toner in replaces the first. Bottles are coloured only by whether they're in use.
+
+**Counter** — the full routine, step by step, plus what to open next and what to finish.
+
+**Inventory** — everything at once, filterable. Tap for a quick card, then
+*More details* for the full record.
 
 ## How depletion works
 
