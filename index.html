@@ -102,18 +102,27 @@ button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:p
 
 /* ===== home: shelves above, trays below ===== */
 /* rolodex of categories; one shelf below it gets all the room */
-.rolodex{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
-  padding:9px 10px;border-bottom:1px solid var(--line);background:var(--surface);scroll-snap-type:x proximity}
-.rolodex::-webkit-scrollbar{display:none}
-.rcat{flex:0 0 auto;scroll-snap-align:center;border:1px solid var(--line-2);background:var(--bg);
-  border-radius:20px;padding:6px 13px;display:flex;align-items:center;gap:7px;transition:.12s;white-space:nowrap}
-.rcat .rn{font-size:12.5px;font-weight:700}
+.rolodex{flex:0 0 auto;position:relative;height:62px;background:var(--surface);
+  border-bottom:1px solid var(--line);perspective:560px;overflow:hidden;touch-action:none;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 16%,#000 84%,transparent)}
+.rolodex:active{cursor:grabbing}
+.wheel{position:absolute;inset:0;transform-style:preserve-3d;
+  transition:transform .44s cubic-bezier(.22,.86,.28,1)}
+.wheel.free{transition:none}
+.rcat{position:absolute;left:50%;top:50%;width:150px;height:38px;margin:-19px 0 0 -75px;
+  display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;
+  border:1px solid var(--line-2);border-radius:10px;background:var(--bg);
+  backface-visibility:hidden;transition:background .2s,border-color .2s,color .2s}
+.rcat .rn{font-size:13px;font-weight:700}
 .rcat .rc{font-family:"Space Mono",monospace;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .rcat .rdot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:0 0 auto}
-.rcat[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.rcat[aria-pressed="true"] .rc{color:var(--bg);opacity:.72}
+.rcat.sel{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.rcat.sel .rc{color:var(--bg);opacity:.75}
+.rolodex .edge{position:absolute;top:0;bottom:0;width:1px;background:var(--accent);opacity:.18;pointer-events:none}
+.rolodex .edge.l{left:calc(50% - 76px)} .rolodex .edge.r{left:calc(50% + 76px)}
 
-#stage{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 10px 16px}
+#stage{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 10px 16px}
 .stage-h{display:flex;align-items:baseline;gap:9px;padding:0 2px 9px}
 .stage-h h2{margin:0;font-size:15px;font-weight:900}
 .stage-h .sc{font-family:"Space Mono",monospace;font-size:10.5px;color:var(--muted)}
@@ -123,7 +132,7 @@ button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:p
     var(--wood-2) 109px 114px, var(--wood-edge) 114px 116px, transparent 116px 160px)}
 
 .item{position:relative;height:150px;display:flex;flex-direction:column;align-items:center;
-  cursor:grab;touch-action:pan-y;transition:transform .1s}
+  cursor:grab;touch-action:none;transition:transform .1s}
 .item:active{cursor:grabbing}
 .item.lifted{opacity:.28}
 .item.armed{transform:scale(1.07)}
@@ -331,7 +340,7 @@ body.tray-mode .fab{transform:translateY(130%)}
   </header>
 
   <section class="pane on" id="paneHome">
-    <div class="rolodex" id="rolodex" role="tablist" aria-label="Category"></div>
+    <div class="rolodex" id="rolodex" role="tablist" aria-label="Category"><div class="wheel" id="wheel"></div><span class="edge l"></span><span class="edge r"></span></div>
     <div id="stage"></div>
     <div class="trays" id="trays"></div>
   </section>
@@ -551,21 +560,91 @@ function groupItems(){
   });
   return {g,cats,total:pool.length};
 }
+/* The wheel is a cylinder: card i sits at rotateY(i*STEP) translateZ(R),
+   and spinning the container brings the chosen one to face you. */
+const CARD_W=150;
+let WHEEL_STEP=30, WHEEL_R=280, wheelClosed=false;
+let wheelCats=[], wheelKey="", wheelAngle=0;
+function sizeWheel(n){
+  // With enough categories the cylinder closes and the wheel turns forever.
+  WHEEL_STEP=Math.min(30,360/Math.max(n,1));
+  wheelClosed=n>=4&&Math.abs(n*WHEEL_STEP-360)<0.5;
+  WHEEL_R=Math.round((CARD_W/2)/Math.tan(WHEEL_STEP*Math.PI/360));
+}
+// shortest signed distance between two angles on the cylinder
+const angDelta=(a,b)=>wheelClosed?((a-b+540)%360)-180:a-b;
+
+function buildWheel(cats,g){
+  const key=cats.join("|");
+  const wheel=document.getElementById("wheel");
+  if(key!==wheelKey){
+    wheelKey=key;wheelCats=cats;sizeWheel(cats.length);
+    wheel.innerHTML=cats.map((c,i)=>{
+      const using=g[c].filter(inUse).length;
+      return `<button class="rcat" role="tab" data-cat="${esc(c)}" data-i="${i}"
+        style="transform:rotateY(${i*WHEEL_STEP}deg) translateZ(${WHEEL_R}px)">
+        ${using?'<span class="rdot"></span>':""}
+        <span class="rn">${esc(c)}</span><span class="rc">${g[c].length}</span></button>`;
+    }).join("");
+  }else{
+    // counts and in-use dots can change without the category set changing
+    cats.forEach((c,i)=>{
+      const el=wheel.children[i];if(!el)return;
+      const using=g[c].filter(inUse).length;
+      const dot=el.querySelector(".rdot");
+      if(using&&!dot)el.insertAdjacentHTML("afterbegin",'<span class="rdot"></span>');
+      else if(!using&&dot)dot.remove();
+      el.querySelector(".rc").textContent=g[c].length;
+    });
+  }
+  spinTo(Math.max(0,cats.indexOf(openCat)),true);
+}
+function applyAngle(deg){
+  const wheel=document.getElementById("wheel");
+  wheel.style.transform=`translateZ(${-WHEEL_R}px) rotateY(${-deg}deg)`;
+  const fade=Math.max(60,WHEEL_STEP*3.4);
+  [...wheel.children].forEach((el,i)=>{
+    const off=Math.abs(angDelta(i*WHEEL_STEP,deg));
+    const on=off<WHEEL_STEP/2;
+    el.classList.toggle("sel",on);
+    el.style.opacity=String(Math.max(0,1-off/fade));
+    el.setAttribute("aria-selected",on?"true":"false");
+  });
+}
+const idxFromAngle=d=>{
+  const n=wheelCats.length||1;
+  return wheelClosed?((Math.round(d/WHEEL_STEP)%n)+n)%n
+                    :Math.max(0,Math.min(n-1,Math.round(d/WHEEL_STEP)));
+};
+function spinTo(idx,snap){
+  const n=wheelCats.length||1;
+  idx=wheelClosed?((idx%n)+n)%n:Math.max(0,Math.min(n-1,idx));
+  // turn whichever way is shorter rather than unwinding the whole cylinder
+  let target=idx*WHEEL_STEP;
+  if(wheelClosed)target=wheelAngle+angDelta(target,wheelAngle);
+  wheelAngle=target;
+  const wheel=document.getElementById("wheel");
+  wheel.classList.toggle("free",!snap);
+  applyAngle(wheelAngle);
+  const c=wheelCats[idx];
+  if(c&&c!==openCat){openCat=c;renderStage();}
+}
 function renderShelves(){
   const {g,cats,total}=groupItems();
-  const rol=document.getElementById("rolodex"), stage=document.getElementById("stage");
+  const stage=document.getElementById("stage");
   if(!total){
-    rol.innerHTML="";
+    document.getElementById("wheel").innerHTML="";wheelKey="";
     stage.innerHTML=`<p class="empty-note">Nothing matches “${esc(QUERY)}”.</p>`;
     return;
   }
   if(!cats.includes(openCat))openCat=cats[0];
-  rol.innerHTML=cats.map(c=>{
-    const using=g[c].filter(inUse).length;
-    return `<button class="rcat" role="tab" data-cat="${esc(c)}" aria-pressed="${c===openCat}" aria-selected="${c===openCat}">
-      ${using?'<span class="rdot"></span>':""}
-      <span class="rn">${esc(c)}</span><span class="rc">${g[c].length}</span></button>`;
-  }).join("");
+  buildWheel(cats,g);
+  renderStage();
+}
+function renderStage(){
+  const {g}=groupItems();
+  const stage=document.getElementById("stage");
+  if(!g[openCat]){stage.innerHTML="";return;}
   const list=g[openCat].slice().sort((a,b)=>{
     const da=derive(a),db=derive(b);
     return (db.using-da.using)||(b.open-a.open)||(da.frac-db.frac);
@@ -575,8 +654,7 @@ function renderShelves(){
   stage.innerHTML=`<div class="stage-h"><h2>${esc(openCat)}</h2>
       <span class="sc">${list.length} products · ${units} units${using?" · "+using+" in use":""}</span></div>
     <div class="shelfgrid">${list.map(itemHTML).join("")}</div>`;
-  const sel=rol.querySelector('[aria-pressed="true"]');
-  if(sel)sel.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  stage.scrollTop=0;
 }
 /* ===== home: AM / PM trays ===== */
 function trayHTML(t){
@@ -871,10 +949,43 @@ const qEl=document.getElementById("q");
 qEl.addEventListener("input",()=>{QUERY=qEl.value;renderAll();});
 qEl.addEventListener("keydown",e=>{if(e.key==="Escape"){qEl.value="";QUERY="";renderAll();}});
 
-document.getElementById("rolodex").addEventListener("click",e=>{
-  const b=e.target.closest("[data-cat]");if(!b)return;
-  openCat=b.dataset.cat;renderShelves();
-});
+(function(){
+  const rol=document.getElementById("rolodex");
+  let down=null,moved=false,last=0,vel=0;
+  rol.addEventListener("pointerdown",e=>{
+    down={x:e.clientX,a:wheelAngle,t:Date.now()};moved=false;vel=0;last=e.clientX;
+    document.getElementById("wheel").classList.add("free");
+    rol.setPointerCapture&&rol.setPointerCapture(e.pointerId);
+  });
+  rol.addEventListener("pointermove",e=>{
+    if(!down)return;
+    const dx=e.clientX-down.x;
+    if(Math.abs(dx)>4)moved=true;
+    vel=e.clientX-last;last=e.clientX;
+    // a card's width spans one step of rotation
+    wheelAngle=down.a-(dx/CARD_W)*WHEEL_STEP;
+    if(!wheelClosed)wheelAngle=Math.max(-WHEEL_STEP,Math.min(wheelCats.length*WHEEL_STEP,wheelAngle));
+    applyAngle(wheelAngle);
+  });
+  const end=e=>{
+    if(!down)return;
+    const flick=Math.abs(vel)>6?-Math.sign(vel):0;
+    const idx=idxFromAngle(wheelAngle)+flick;
+    down=null;
+    if(!moved){
+      const card=e.target&&e.target.closest("[data-cat]");
+      if(card)return spinTo(+card.dataset.i,true);
+    }
+    spinTo(idx,true);
+  };
+  rol.addEventListener("pointerup",end);
+  rol.addEventListener("pointercancel",()=>{down=null;spinTo(idxFromAngle(wheelAngle),true);});
+  rol.addEventListener("keydown",e=>{
+    const i=wheelCats.indexOf(openCat);
+    if(e.key==="ArrowRight"){e.preventDefault();spinTo(i+1,true);}
+    if(e.key==="ArrowLeft"){e.preventDefault();spinTo(i-1,true);}
+  });
+})();
 document.getElementById("stage").addEventListener("keydown",e=>{
   const it=e.target.closest(".item");
   if(it&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openPeek(it.dataset.id);}
@@ -888,7 +999,8 @@ document.addEventListener("click",e=>{
   const f=e.target.closest("[data-filter]");
   if(f){invFilter=f.dataset.filter;return renderInv();}
   const it=e.target.closest(".item");
-  if(it&&!dragging&&Date.now()-lastDrag>300)return openPeek(it.dataset.id);
+  if(it&&!dragging&&!scrolling&&Date.now()-lastDrag>300&&Date.now()-lastScroll>250)
+    return openPeek(it.dataset.id);
 });
 
 peekEl.addEventListener("click",e=>{
@@ -970,7 +1082,7 @@ sheetEl.addEventListener("change",e=>{
    Tap  -> quick card with AM / PM buttons.
    Drag -> press and hold, then drag. A hold is unambiguous on touch, where a
    vertical swipe would otherwise be the browser scrolling the shelf away. */
-let dragging=null,ghost=null,startPt=null,pending=null,lastDrag=0,holdTimer=null;
+let dragging=null,ghost=null,startPt=null,pending=null,lastDrag=0,holdTimer=null,lastScroll=0;
 const HOLD_MS=260, MOVE_TOL=11;
 
 function armDrag(){
@@ -993,20 +1105,49 @@ function cancelPending(){
   if(pending)pending.el.classList.remove("armed");
   pending=null;
 }
-document.getElementById("stage").addEventListener("pointerdown",e=>{
+// keep the pending reference alive for the scroll, just disarm the hold
+function cancelPending2(){
+  clearTimeout(holdTimer);holdTimer=null;
+  if(pending)pending.el.classList.remove("armed");
+}
+/* Bottles set touch-action:none so the browser can't steal the gesture
+   mid-drag. That also means it no longer scrolls the shelf for us, so we
+   do it by hand, with a flick that carries. */
+const stageEl=document.getElementById("stage");
+let scrolling=false, lastY=0, scrollVel=0, glideId=0;
+function glide(){
+  cancelAnimationFrame(glideId);
+  const step=()=>{
+    if(Math.abs(scrollVel)<0.4)return;
+    stageEl.scrollTop-=scrollVel;
+    scrollVel*=0.94;
+    glideId=requestAnimationFrame(step);
+  };
+  glideId=requestAnimationFrame(step);
+}
+stageEl.addEventListener("pointerdown",e=>{
   const it=e.target.closest(".item");
   if(!it||e.button)return;
+  cancelAnimationFrame(glideId);scrollVel=0;
   pending={id:it.dataset.id,el:it};
   startPt={x:e.clientX,y:e.clientY};
+  lastY=e.clientY;scrolling=false;
   it.classList.add("armed");
+  it.setPointerCapture&&it.setPointerCapture(e.pointerId);
   clearTimeout(holdTimer);
   // a mouse can drag straight away; touch waits for the hold
   holdTimer=setTimeout(armDrag, e.pointerType==="mouse"?0:HOLD_MS);
 });
 window.addEventListener("pointermove",e=>{
   if(pending&&!dragging){
-    // moved before the hold completed: that was a scroll, not a grab
-    if(Math.hypot(e.clientX-startPt.x,e.clientY-startPt.y)>MOVE_TOL)cancelPending();
+    const dy=e.clientY-lastY;
+    if(scrolling||Math.hypot(e.clientX-startPt.x,e.clientY-startPt.y)>MOVE_TOL){
+      // moved before the hold completed: scroll the shelf ourselves
+      if(!scrolling){scrolling=true;cancelPending2();}
+      stageEl.scrollTop-=dy;
+      scrollVel=dy;
+      lastY=e.clientY;
+    }
     return;
   }
   if(!dragging)return;
@@ -1019,7 +1160,9 @@ window.addEventListener("pointermove",e=>{
 },{passive:false});
 window.addEventListener("pointercancel",()=>{cancelPending();finishDrag(null);});
 window.addEventListener("pointerup",e=>{
+  const wasScrolling=scrolling;
   cancelPending();
+  if(wasScrolling){scrolling=false;lastScroll=Date.now();glide();return;}
   if(!dragging)return;
   const el=document.elementFromPoint(e.clientX,e.clientY);
   const tray=el&&el.closest(".tray");
